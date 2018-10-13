@@ -1,0 +1,1 @@
+Solution for [CodeSignal](https://codesignal.com/) coding challenges.
