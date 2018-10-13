@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace NewNumeralSystem
+﻿namespace NewNumeralSystem
 {
     public class Solution
     {
         public static string[] NewNumeralSystem(char number)
         {
-            IList<string> list = new List<string>();
-
-            int maxIdx = (number - 65) / 2 + 1;
-            for (int i = 0; i < maxIdx; i += 1)
+            int firstLetter = 65;
+            int numberOfEquastions = (number - firstLetter) / 2;
+            string[] array = new string[numberOfEquastions + 1];
+            int lastLetter = firstLetter + number;
+            int lastIdx = firstLetter + numberOfEquastions;
+            for (int i = firstLetter; i <= lastIdx; i += 1)
             {
-                list.Add($"{(char)(65 + i)} + {(char)(number - i)}");
+                array[i - firstLetter] = $"{(char)i} + {(char)(lastLetter - i)}";
             }
-
-            return list.ToArray();
+            return array;
         }
     }
 }
