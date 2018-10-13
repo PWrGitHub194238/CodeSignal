@@ -12,7 +12,7 @@ namespace Zigzag.Tests
             // Arrange
 
             // Act
-            int resultZigzagSubArrayMaxLength = Solution.zigzag(inputArray);
+            int resultZigzagSubArrayMaxLength = Solution.Zigzag(inputArray);
 
             // Assert
             Assert.Equal(maxZigzagSubArrayLength, resultZigzagSubArrayMaxLength);
