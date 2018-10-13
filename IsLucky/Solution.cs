@@ -10,22 +10,24 @@ namespace IsLucky
             int firstHalf = (int)(n / Math.Pow(10, halfNumberOfDigits));
             int secondHalf = n - (int)(firstHalf * Math.Pow(10, halfNumberOfDigits));
 
-            int i;
-            int firstHalfSum = 0;
-            int secondHalfSum = 0;
+            return SumOfDigits(firstHalf, halfNumberOfDigits) == SumOfDigits(secondHalf, halfNumberOfDigits);
+        }
 
-            for (i = 0; i < halfNumberOfDigits; i += 1)
+        private static int SumOfDigits(int n, int? numberOfDigits)
+        {
+            if (numberOfDigits == null)
             {
-                firstHalfSum += (firstHalf % 10);
-                firstHalf = firstHalf / 10;
+                numberOfDigits = (int)(Math.Floor(Math.Log10(n)) + 1);
             }
 
-            for (i = 0; i < halfNumberOfDigits; i += 1)
+            int sum = 0;
+
+            for (int i = 0; i < numberOfDigits; i += 1)
             {
-                secondHalfSum += (secondHalf % 10);
-                secondHalf = secondHalf / 10;
+                sum += (n % 10);
+                n = n / 10;
             }
-            return firstHalfSum == secondHalfSum;
+            return sum;
         }
     }
 }
