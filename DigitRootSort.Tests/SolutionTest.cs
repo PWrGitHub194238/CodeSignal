@@ -12,7 +12,7 @@ namespace DigitRootSort.Tests
             // Arrange
 
             // Act
-            int[] resultArray = Solution.digitRootSort(inputArray);
+            int[] resultArray = Solution.DigitRootSort(inputArray);
 
             // Assert
             Assert.Equal(sortedArray, resultArray);

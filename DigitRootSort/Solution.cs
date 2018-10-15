@@ -1,33 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace DigitRootSort
 {
     public class Solution
     {
-        public static int[] digitRootSort(int[] a)
+        public static int[] DigitRootSort(int[] a)
         {
             int inputArrayLength = a.Length;
+            int[] digitRootArray = CalculateDigitRootArray(inputArray: a);
+
+            return DighitRootSort(inputArray: a, digitRootArray: digitRootArray);
+        }
+
+        private static int[] CalculateDigitRootArray(int[] inputArray)
+        {
+            int inputArrayLength = inputArray.Length;
             int[] digitRootArray = new int[inputArrayLength];
-            int number, digitRoot;
 
             for (int i = 0; i < inputArrayLength; i++)
             {
-                digitRoot = 0;
-                number = a[i];
-                while (number > 0)
-                {
-                    digitRoot += (number % 10);
-                    number /= 10;
-                }
-                digitRootArray[i] = digitRoot;
+                digitRootArray[i] = CalculateDigitRoot(number: inputArray[i]);
             }
+            return digitRootArray;
+        }
 
-            Array.Sort(digitRootArray, a, Comparer<int>.Create((k1, k2) => k1.CompareTo(k2)));
+        private static int CalculateDigitRoot(int number)
+        {
+            int digitRoot = 0;
+            while (number > 0)
+            {
+                digitRoot += (number % 10);
+                number /= 10;
+            }
+            return digitRoot;
+        }
 
-            int prevItem, currentItem = digitRootArray[0], beginIdx = 0, endIdx = 0;
+        private static int[] DighitRootSort(int[] inputArray, int[] digitRootArray)
+        {
+            // Sort inputArray by keys in digitRootArray
+            // We do not care about sorting digitRootArray as a side effect.
+            Array.Sort(digitRootArray, inputArray);
 
-            //2 4 4 7 8
+            return SortSameRootDigitsInIncOrder(inputArray: inputArray, digitRootArray: digitRootArray);
+        }
+
+        private static int[] SortSameRootDigitsInIncOrder(int[] inputArray, int[] digitRootArray)
+        {
+            int prevItem;
+            int currentItem = digitRootArray[0];
+            int beginIdx = 0;
+            int endIdx = 0;
+
+            int inputArrayLength = inputArray.Length;
             for (int i = 1; i < inputArrayLength; i++)
             {
                 prevItem = currentItem;
@@ -35,12 +59,8 @@ namespace DigitRootSort
 
                 if (prevItem != currentItem)
                 {
-                    if (endIdx > beginIdx)
-                    {
-                        Array.Sort(a, beginIdx, endIdx + 1 - beginIdx, Comparer<int>.Create((k1, k2) => k1.CompareTo(k2)));
-                    }
+                    inputArray = SortSameRootDigitsInIncOrderSubArray(inputArray, beginIdx, endIdx);
                     beginIdx = i;
-
                 }
                 else
                 {
@@ -48,11 +68,17 @@ namespace DigitRootSort
                 }
             }
 
+            inputArray = SortSameRootDigitsInIncOrderSubArray(inputArray, beginIdx, endIdx);
+            return inputArray;
+        }
+
+        private static int[] SortSameRootDigitsInIncOrderSubArray(int[] inputArray, int beginIdx, int endIdx)
+        {
             if (endIdx > beginIdx)
             {
-                Array.Sort(a, beginIdx, endIdx + 1 - beginIdx, Comparer<int>.Create((k1, k2) => k1.CompareTo(k2)));
+                Array.Sort(inputArray, beginIdx, endIdx + 1 - beginIdx);
             }
-            return a;
+            return inputArray;
         }
     }
 }
