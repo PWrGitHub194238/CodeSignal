@@ -6,6 +6,10 @@ function pasreBash() {
 		case "${1}" in
 			-p|--project)
 				PROJECT_NAME="${2}"
+				# Method names in CodeSignal begins with a small letter (camelCase), strangely enough.
+				METHOD_NAME="${PROJECT_NAME,}"
+				# And we want upper case (PascalCase) in our project name.
+				PROJECT_NAME="${PROJECT_NAME^}"		
 				shift
 			;; 
 			-n|--name)
@@ -20,7 +24,7 @@ function pasreBash() {
 				INPUT_PARAMS="${2}"
 				shift
 			;;
-			-test|--test-name)
+			-t|--test-name)
 				TEST_NAME="${2}"
 				shift
 			;;
@@ -36,7 +40,7 @@ function pasreBash() {
 				TASK_POINTS="${2}"
 				shift
 			;;
-			-td|--task-description)
+			-tdesc|--task-description)
 				TASK_DESCRIPTION="${2}"
 				shift
 			;;
@@ -70,16 +74,27 @@ function confirm() {
 # Print help for script
 #
 function printHelp() {
-	echo -e "Generates template for any CodeSignal task of given Project name and Test name.\n\n"
-	echo -e "-p|--project \t\t - \t project name,"
-	echo -e "-r|--return-type \t - \t return type for mine method from CodeSignal's task,"
-	echo -e "-i|--input-params \t - \t input parameters types and names from CodeSignal's task method signature,"
-	echo -e "-test--test-name \t - \t test name to cover example and test cases from the task,"
-	echo -e "-td|--task-difficulty \t - \t difficulty of given task (Easy|Medium|Hard),"
-	echo -e "-tt|--task-type \t - \t type of given task (Codewriting),"
-	echo -e "-tp--task-points \t - \t points for resolving given problem,"
-	echo -e "-td|--task-description \t - \t description of given task,"
-	echo -e "-f|--framework \t\t - \t framework."
+	echo -e "Usage: bash createProject.bash -p|--project <arg> -test|--test-name <arg> 
+		[-r|--return-type <arg>] [-i|--input-params <arg>] [-tt|--task-type <arg>] 
+		[-tp|--task-points <arg>] [-tdesc|--task-description <arg>] [-f|--framework <arg>]"
+	echo -e "\nGenerates template for any CodeSignal task of given Project name and Test name.\n"
+	echo -e "-p|--project <arg> \t\t- \t project name,"
+	echo -e "-t|--test-name <arg>\t \t- \t test name to cover example and test cases from the task,"
+	echo -e "-r|--return-type <arg> \t\t- \t return type for mine method from CodeSignal's task (default 'object'),"
+	echo -e "-i|--input-params <arg> \t- \t input parameters types and names from CodeSignal's task method signature (default 'object o')."
+	echo -e "\nREADME.md related commands:"
+	echo -e "-td|--task-difficulty <arg> \t- \t difficulty of given task (Easy|Medium|Hard) that will be put into README.md file for project ('Medium' by default),"
+	echo -e "-tt|--task-type <arg> \t\t- \t type of given task ('Codewriting' by default),"
+	echo -e "-tp|--task-points <arg> \t- \t CodeSignal points for resolving given problem ('0' by default),"
+	echo -e "-tdesc|--task-description <arg> - \t description of given task ('TODO' by default)."
+	echo -e "\nOther commands:"
+	echo -e "-f|--framework <arg> \t\t- \t framework to be used in both of classlib and xunit projects ('netcoreapp2.1' by default)."
+	echo -e "\nExample usage:"
+	
+	echo -e "\n\tbash createProject.bash -p 'isLucky' -t 'ShouldBeLucky'"
+	echo -e "\tbash createProject.bash -p 'digitRootSort' -t 'ShouldSortCorrectly' -r 'int[]' -i 'int[] a'"
+	echo -e "\tbash createProject.bash -p 'constructArray' -t 'ShouldContainItemsInGivenOrder' -r 'int[]' -i 'int size'  
+		-td 'Medium' -tt 'Codewriting' -tp '1000' -tdesc 'Given an integer...'"
 }
 
 # Set parameter default values based on script's input if specified.
@@ -103,17 +118,17 @@ function checkParams() {
 	
 	if ! [ -n "${TASK_DIFFICULTY+x}" ]
 	then
-		TASK_DIFFICULTY="Undefined"
+		TASK_DIFFICULTY="Medium"
 	fi
 	
 	if ! [ -n "${TASK_TYPE+x}" ]
 	then
-		TASK_TYPE="Undefined"
+		TASK_TYPE="Codewriting"
 	fi
 	
 	if ! [ -n "${TASK_POINTS+x}" ]
 	then
-		TASK_POINTS="Undefined"
+		TASK_POINTS="0"
 	fi
 
 	if ! [ -n "${TASK_DESCRIPTION+x}" ]
@@ -143,15 +158,24 @@ function checkReqParams() {
 # ${3} - parameter types and names, delimetered by a coma.
 #
 function buildProject() {
-	if ! [ $(git diff-index --quiet HEAD) ]; then
-		echo "Git index is not empty."
-		git status
-		if [ $(confirm 'Do you want to hard reset to HEAD commit?') == 'y' ]; then
-			git reset --hard HEAD
+	# If solution is a git repository
+	if git rev-parse --git-dir > /dev/null 2>&1; then
+		if ! [ $(git diff-index --quiet HEAD) ]; then
+			echo "Git index is not empty."
+			git status
+			if [ $(confirm 'Do you want to hard reset to HEAD commit?') == 'y' ]; then
+				git reset --hard HEAD
+			fi
+		fi
+	
+		git checkout master
+
+		if ! [ $(git branch -r | grep -q "${PROJECT_NAME}") ]; then
+			git checkout -b "${PROJECT_NAME}"
+		else
+			git checkout "${PROJECT_NAME}"
 		fi
 	fi
-	
-	git checkout master
 	
 	# Create project library with given framework.
 	dotnet new classlib -f "${FRAMEWORK}" -n "${PROJECT_NAME}"
@@ -163,13 +187,15 @@ function buildProject() {
 	# Change class name
 	sed -i "s/Class1/${CLASS_NAME}/" "Class1.cs"
 	
-	sed -i "s/    {/    {\n        public static ${RETURN_TYPE} ${PROJECT_NAME}(${INPUT_PARAMS}) {\n            return (${RETURN_TYPE}) new object();\n        }/" "Class1.cs"
+	sed -i "s/    {/    {\n        public static ${RETURN_TYPE} ${METHOD_NAME}(${INPUT_PARAMS}) {\n            return (${RETURN_TYPE}) new object();\n        }/" "Class1.cs"
 	# Change root lib class file name
 	mv "Class1.cs" "${CLASS_NAME}.cs"
 	
 	# Generate README.md markdown file
 	touch "README.md"
-	echo "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/difficulty.png) **${TASK_DIFFICULTY}** ![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/type.png) **${TASK_TYPE}** ![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/points.png) **${TASK_POINTS}**" > "README.md"
+	echo -n "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/difficulty_${TASK_DIFFICULTY,,}.png) **${TASK_DIFFICULTY}** &emsp; " >> "README.md"
+	echo -n "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/type.png) **${TASK_TYPE}** &emsp; " >> "README.md"
+	echo -e "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/points.png) **${TASK_POINTS}**\n" >> "README.md"
 	
 	echo "${TASK_DESCRIPTION}" >> "README.md"
 	
@@ -202,7 +228,7 @@ namespace ${PROJECT_NAME}.Tests.TestData
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { new ${RETURN_TYPE} { } };
+            yield return new object[] {  }; // ${INPUT_PARAMS}
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -216,7 +242,7 @@ namespace ${PROJECT_NAME}.Tests.TestData
 	sed -i "s/UnitTest1/${CLASS_NAME}Test/" UnitTest1.cs
 	sed -i "s/\[Fact\]/[Theory]\n        [ClassData(typeof(${TEST_NAME}TestData))]/" UnitTest1.cs
 	sed -i "s/Test1()/${TEST_NAME}(${INPUT_PARAMS}, ${RETURN_TYPE} expectedResult)/" UnitTest1.cs
-	sed -i "s/        {/        {\n        \/\/ Arrange\n\n        \/\/ Act\n        ${RETURN_TYPE} result = ${CLASS_NAME}.${PROJECT_NAME}($(getParamNames));\n\n        \/\/ Assert\n        Assert.Equal(expectedResult, result);/" UnitTest1.cs
+	sed -i "s/        {/        {\n        \/\/ Arrange\n\n        \/\/ Act\n        ${RETURN_TYPE} result = ${CLASS_NAME}.${METHOD_NAME}($(getParamNames));\n\n        \/\/ Assert\n        Assert.Equal(expectedResult, result);/" UnitTest1.cs
 
 	mv "UnitTest1.cs" "${CLASS_NAME}Test.cs"
 	dotnet build
@@ -226,10 +252,16 @@ namespace ${PROJECT_NAME}.Tests.TestData
 	# Add both projects into solution.
 	dotnet sln CodeSignal.sln add "${PROJECT_NAME}"
 	dotnet sln CodeSignal.sln add "${PROJECT_NAME}.Tests"
+
+	if git rev-parse --git-dir > /dev/null 2>&1; then
+		git add *
+		git commit -m "${PROJECT_NAME} - generate from template"
+	fi
 }
 
 function getParamNames() {
-# Get parameters names without types
+	# Get parameters names without types
+	# eg. int a, int[] b, string c, object d => a,b,c,d
 	names="${INPUT_PARAMS},"
 	names="$(echo "${names}" | sed 's/\S* \(\S*\),\s*/\1,/g')"
 	echo "${names::-1}"
