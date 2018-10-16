@@ -9,13 +9,13 @@ namespace ConstructArray.Tests
         [ClassData(typeof(ShouldContainItemsInGivenOrderTestData))]
         public void ShouldContainItemsInGivenOrder(int size, int[] expectedResult)
         {
-        // Arrange
+            // Arrange
 
-        // Act
-        int[] result = Solution.constructArray(size);
+            // Act
+            int[] result = Solution.ConstructArray(size);
 
-        // Assert
-        Assert.Equal(expectedResult, result);
+            // Assert
+            Assert.Equal(expectedResult, result);
 
         }
     }

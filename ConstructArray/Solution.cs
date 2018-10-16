@@ -2,7 +2,7 @@
 {
     public class Solution
     {
-        public static int[] constructArray(int size)
+        public static int[] ConstructArray(int size)
         {
             int idx;
             int val = 1;
