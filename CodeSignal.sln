@@ -24,6 +24,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitRootSort", "DigitRootS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitRootSort.Tests", "DigitRootSort.Tests\DigitRootSort.Tests.csproj", "{50EBCB25-3228-4963-98D0-A9A1EC6DCEBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructSubmatrix", "ConstructSubmatrix\ConstructSubmatrix.csproj", "{4667176C-5DEA-46BC-A724-9FB31FA49504}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructSubmatrix.Tests", "ConstructSubmatrix.Tests\ConstructSubmatrix.Tests.csproj", "{456F1E04-C840-4D3C-812A-3B81D8BEF540}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +66,14 @@ Global
 		{50EBCB25-3228-4963-98D0-A9A1EC6DCEBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50EBCB25-3228-4963-98D0-A9A1EC6DCEBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50EBCB25-3228-4963-98D0-A9A1EC6DCEBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4667176C-5DEA-46BC-A724-9FB31FA49504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4667176C-5DEA-46BC-A724-9FB31FA49504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4667176C-5DEA-46BC-A724-9FB31FA49504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4667176C-5DEA-46BC-A724-9FB31FA49504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456F1E04-C840-4D3C-812A-3B81D8BEF540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F1E04-C840-4D3C-812A-3B81D8BEF540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F1E04-C840-4D3C-812A-3B81D8BEF540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F1E04-C840-4D3C-812A-3B81D8BEF540}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
