@@ -12,7 +12,7 @@ namespace ConstructSubmatrix.Tests
             // Arrange
 
             // Act
-            int[][] result = Solution.constructSubmatrix(matrix, rowsToDelete, columnsToDelete);
+            int[][] result = Solution.ConstructSubmatrix(matrix, rowsToDelete, columnsToDelete);
 
             // Assert
             Assert.Equal(expectedResult, result);
