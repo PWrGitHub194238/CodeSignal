@@ -197,8 +197,8 @@ function buildProject() {
 	# Generate README.md markdown file
 	touch "README.md"
 	echo -n "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/difficulty_${TASK_DIFFICULTY,,}.png) **${TASK_DIFFICULTY}** &emsp; " >> "README.md"
-	echo -n "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/type.png) **${TASK_TYPE}** &emsp; " >> "README.md"
-	echo -e "![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/points.png) **${TASK_POINTS}**\n" >> "README.md"
+	echo -n "![type_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/type.png) **${TASK_TYPE}** &emsp; " >> "README.md"
+	echo -e "![points_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/points.png) **${TASK_POINTS}**\n" >> "README.md"
 	
 	echo "${TASK_DESCRIPTION}" >> "README.md"
 	

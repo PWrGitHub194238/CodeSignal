@@ -1,4 +1,4 @@
-﻿![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/difficulty_easy.png) **Easy** &emsp; ![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/type.png) **Codewriting** &emsp; ![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/points.png) **1000**
+﻿![difficulty_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/difficulty_easy.png) **Easy** &emsp; ![type_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/type.png) **Codewriting** &emsp; ![points_icon](https://github.com/PWrGitHub194238/CodeSignal/blob/master/points.png) **1000**
 
 Digit root of some positive integer is defined as the sum of all of its digits.
 
