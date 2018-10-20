@@ -12,7 +12,7 @@ namespace DecodeString.Tests
             // Arrange
 
             // Act
-            string result = Solution.decodeString(s);
+            string result = Solution.DecodeString(s);
 
             // Assert
             Assert.Equal(expectedResult, result);
