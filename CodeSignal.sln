@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecodeString", "DecodeStrin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecodeString.Tests", "DecodeString.Tests\DecodeString.Tests.csproj", "{320D37EB-2018-4E38-A5E4-0F00DD125597}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChangeRoot", "ChangeRoot\ChangeRoot.csproj", "{BCF5ED52-C847-4092-BF38-93E4FAD154D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChangeRoot.Tests", "ChangeRoot.Tests\ChangeRoot.Tests.csproj", "{DF9BFF3E-696C-49FE-89D4-8A607F81DCB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +98,14 @@ Global
 		{320D37EB-2018-4E38-A5E4-0F00DD125597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{320D37EB-2018-4E38-A5E4-0F00DD125597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{320D37EB-2018-4E38-A5E4-0F00DD125597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCF5ED52-C847-4092-BF38-93E4FAD154D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF5ED52-C847-4092-BF38-93E4FAD154D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF5ED52-C847-4092-BF38-93E4FAD154D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF5ED52-C847-4092-BF38-93E4FAD154D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF9BFF3E-696C-49FE-89D4-8A607F81DCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF9BFF3E-696C-49FE-89D4-8A607F81DCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF9BFF3E-696C-49FE-89D4-8A607F81DCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF9BFF3E-696C-49FE-89D4-8A607F81DCB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
