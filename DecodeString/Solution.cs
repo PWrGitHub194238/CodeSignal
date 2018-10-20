@@ -1,6 +1,6 @@
-﻿
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DecodeString
 {
@@ -12,50 +12,47 @@ namespace DecodeString
 
             Stack<char> parsingStack = new Stack<char>();
             Stack<int> multiplierStack = new Stack<int>();
-            Stack<int> localMultiplierStack = new Stack<int>();
+            StringBuilder localMultiplierBuilder = new StringBuilder();
             int multiplier = 1;
-            string lms = "";
 
             char currentChar;
             char[] inputCharArray = s.ToCharArray();
             int inputCharIdx = 0;
             int inputCharMaxIdx = inputCharArray.Length;
-            string localString;
+            LinkedList<char> localString;
 
-            while(inputCharIdx < inputCharMaxIdx)
+            while (inputCharIdx < inputCharMaxIdx)
             {
                 currentChar = inputCharArray[inputCharIdx];
 
                 if (char.IsLetter(currentChar))
                 {
                     parsingStack.Push(currentChar);
-                } else if (char.IsDigit(currentChar))
+                }
+                else if (char.IsDigit(currentChar))
                 {
-                    localMultiplierStack.Push(currentChar - 48);
-                } else if (currentChar == '[')
+                    localMultiplierBuilder.Append(currentChar - 48);
+                }
+                else if (currentChar == '[')
                 {
                     parsingStack.Push(currentChar);
-
-                    while (localMultiplierStack.Count > 0)
-                    {
-                        lms = localMultiplierStack.Pop() + lms;
-                    }
-                    multiplierStack.Push(int.Parse(lms));
-                    lms = "";
-
-                } else if (currentChar == ']')
+                    multiplierStack.Push(int.Parse(localMultiplierBuilder.ToString()));
+                    localMultiplierBuilder.Clear();
+                }
+                else if (currentChar == ']')
                 {
-                    localString = string.Empty;
-                    while (parsingStack.Peek() != '[')
+                    localString = new LinkedList<char>();
+                    currentChar = parsingStack.Pop();
+                    while (currentChar != '[')
                     {
-                        localString = parsingStack.Pop() + localString;
+                        localString.AddFirst(currentChar);
+                        currentChar = parsingStack.Pop();
                     }
-                    parsingStack.Pop();
 
                     multiplier = multiplierStack.Pop();
                     for (int i = 0; i < multiplier; i++)
                     {
-                        foreach (var inputChar in localString.ToCharArray())
+                        foreach (var inputChar in localString)
                         {
                             parsingStack.Push(inputChar);
                         }
@@ -64,11 +61,9 @@ namespace DecodeString
 
                 inputCharIdx += 1;
             }
-
-            while (parsingStack.Count > 0) {
-                decodedString = parsingStack.Pop() + decodedString;
-            }
-            return decodedString;
+            char[] reversedDecodedArray = parsingStack.ToArray();
+            Array.Reverse(reversedDecodedArray);
+            return new string(reversedDecodedArray);
         }
     }
 }
