@@ -4,30 +4,26 @@ function pasreBash() {
 	while (( ${#} > 0 ))
 	do
 		case "${1}" in
-			-p|--project)
-				PROJECT_NAME="${2}"
+			-s|--signature)
+				SIGNATURE="${2}"
+				# Extracts from CodeSignal's method signature following informations:
+				RETURN_TYPE="$(echo "${SIGNATURE}" | sed 's/^\(.*\)\s.*(.*/\1/')"
+				METHOD_NAME="$(echo "${SIGNATURE}" | sed 's/^.* \(.*\)(.*/\1/')"
 				# Method names in CodeSignal begins with a small letter (camelCase), strangely enough.
-				METHOD_NAME="${PROJECT_NAME,}"
+				METHOD_NAME="${METHOD_NAME,}"
 				# And we want upper case (PascalCase) in our project name.
-				PROJECT_NAME="${PROJECT_NAME^}"		
-				shift
-			;; 
-			-n|--name)
-				CLASS_NAME="${2}"
-				shift
-			;; 
-			-r|--return-type)
-				RETURN_TYPE="${2}"
-				shift
-			;;
-			-i|--input-params)
-				INPUT_PARAMS="${2}"
+				PROJECT_NAME="${METHOD_NAME^}"	
+				INPUT_PARAMS="$(echo "${SIGNATURE}" | sed 's/^.* .*(\(.*\)).*/\1/')"
 				shift
 			;;
 			-t|--test-name)
 				TEST_NAME="${2}"
 				shift
 			;;
+			-n|--name)
+				CLASS_NAME="${2}"
+				shift
+			;; 
 			-td|--task-difficulty)
 				TASK_DIFFICULTY="${2}"
 				shift
@@ -74,14 +70,13 @@ function confirm() {
 # Print help for script
 #
 function printHelp() {
-	echo -e "Usage: bash createProject.bash -p|--project <arg> -test|--test-name <arg> 
-		[-r|--return-type <arg>] [-i|--input-params <arg>] [-tt|--task-type <arg>] 
-		[-tp|--task-points <arg>] [-tdesc|--task-description <arg>] [-f|--framework <arg>]"
+	echo -e "Usage: bash createProject.bash -s|-signature '<arg>' -test|--test-name <arg> 
+		[-n|--name <arg>] [-tt|--task-type <arg>] [-tp|--task-points <arg>] 
+		[-tdesc|--task-description <arg>] [-f|--framework <arg>]"
 	echo -e "\nGenerates template for any CodeSignal task of given Project name and Test name.\n"
-	echo -e "-p|--project <arg> \t\t- \t project name,"
-	echo -e "-t|--test-name <arg>\t \t- \t test name to cover example and test cases from the task,"
-	echo -e "-r|--return-type <arg> \t\t- \t return type for mine method from CodeSignal's task (default 'object'),"
-	echo -e "-i|--input-params <arg> \t- \t input parameters types and names from CodeSignal's task method signature (default 'object o')."
+	echo -e "-s|-signature '<arg>' \t\t- \t signature of a main method from CodeSignal's task,"
+	echo -e "-t|--test-name <arg>\t \t- \t test name to cover example and test cases from the task,"	
+	echo -e "-n|--name <arg> \t\t- \t project's main class name,"	
 	echo -e "\nREADME.md related commands:"
 	echo -e "-td|--task-difficulty <arg> \t- \t difficulty of given task (Easy|Medium|Hard) that will be put into README.md file for project ('Medium' by default),"
 	echo -e "-tt|--task-type <arg> \t\t- \t type of given task ('Codewriting' by default),"
@@ -104,16 +99,6 @@ function checkParams() {
 	if ! [ -n "${CLASS_NAME+x}" ]
 	then
 		CLASS_NAME="Solution"
-	fi
-	
-	if ! [ -n "${RETURN_TYPE+x}" ]
-	then
-		RETURN_TYPE="object"
-	fi
-
-	if ! [ -n "${INPUT_PARAMS+x}" ]
-	then
-		INPUT_PARAMS="object o"
 	fi
 	
 	if ! [ -n "${TASK_DIFFICULTY+x}" ]
@@ -145,12 +130,12 @@ function checkParams() {
 # Checks if required parameters were set.
 #
 function checkReqParams() {
-	[ -n "${PROJECT_NAME+x}" ] && [ -n "${TEST_NAME+x}" ]
+	[ -n "${SIGNATURE+x}" ] && [ -n "${TEST_NAME+x}" ]
 }
 
 ####################################################################################################################
 
-#\
+#
 #
 # Parameters:
 # ${1} - project's name,
