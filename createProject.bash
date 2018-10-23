@@ -207,6 +207,7 @@ function buildProject() {
 	cd "TestData"
 	
 	touch "${TEST_NAME}TestData.cs"
+	
 	echo "using System.Collections;
 using System.Collections.Generic;
 
@@ -218,7 +219,7 @@ namespace ${PROJECT_NAME}.Tests.TestData
         {
 			// Inputs: ${INPUT_PARAMS}
 			// Outputs: ${RETURN_TYPE}
-            yield return new object[] { };
+            yield return new object[] { $(generateYieldReturns) };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -253,10 +254,34 @@ function getParamNames() {
 	# Get parameters names without types
 	# eg. int a, int[] b, string c, object d => a,b,c,d
 	names="${INPUT_PARAMS},"
-	names="$(echo "${names}" | sed 's/\S* \(\S*\),\s*/\1,/g')"
+	names="$(echo "${names}" | sed 's/\S\+ \(\S\+\),\s*/\1,/g')"
 	echo "${names::-1}" | sed 's/,/, /g'
 }
+
+function getParamTypes() {
+	# Get parameters names without types
+	# eg. int a, int[] b, string c, object d => int int[] string object
+	types="$(echo "${INPUT_PARAMS}, " | sed 's/\(\S\+\) \S\+, /\1 /g')"
+	echo "${types::-1} ${RETURN_TYPE}"
+}
  
+function generateYieldReturns() {
+	yield='';
+	paramTypeArray=( $(getParamTypes) )
+	for param in "${paramTypeArray[@]}"
+	do
+		if $(echo "${param}" | grep -qE '[\[\]]') ; then
+			yield="${yield}new ${param} { }, "
+		elif [ "${param:-1}" == "?" ]; then
+			yield="${yield}null, "
+		elif $(echo "${param}" | grep -qE '(int|long|short|double|decimal|float)') ; then
+			yield="${yield}0, "
+		else
+			yield="${yield}null, "
+		fi 
+	done
+	echo "${yield::-2}"
+}
 
 ####################################################################################################################
 
