@@ -86,10 +86,9 @@ function printHelp() {
 	echo -e "-f|--framework <arg> \t\t- \t framework to be used in both of classlib and xunit projects ('netcoreapp2.1' by default)."
 	echo -e "\nExample usage:"
 	
-	echo -e "\n\tbash createProject.bash -p 'isLucky' -t 'ShouldBeLucky'"
-	echo -e "\tbash createProject.bash -p 'digitRootSort' -t 'ShouldSortCorrectly' -r 'int[]' -i 'int[] a'"
-	echo -e "\tbash createProject.bash -p 'constructArray' -t 'ShouldContainItemsInGivenOrder' -r 'int[]' -i 'int size'  
-		-td 'Medium' -tt 'Codewriting' -tp '1000' -tdesc 'Given an integer...'"
+	echo -e "\n\tbash createProject.bash -s 'int periodicSequence(int s0, int a, int b, int m)' -t 'ShouldFoundMinimalPeriod'"
+	echo -e "\ bash createProject.bash -s 'string[] textJustification(string[] words, int l)' -t 'ShouldJustifyTextEqually' 
+		-td 'Medium' -tt 'Codewriting' -tp 3000 -tesc 'Given an integer...'"
 }
 
 # Set parameter default values based on script's input if specified.
