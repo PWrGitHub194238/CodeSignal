@@ -12,7 +12,7 @@ namespace TextJustification.Tests
             // Arrange
 
             // Act
-            string[] result = Solution.textJustification(words, l);
+            string[] result = Solution.TextJustification(words, l);
 
             // Assert
             Assert.Equal(expectedResult, result);
