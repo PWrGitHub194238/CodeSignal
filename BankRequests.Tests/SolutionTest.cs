@@ -12,7 +12,7 @@ namespace BankRequests.Tests
             // Arrange
 
             // Act
-            int[] result = Solution.bankRequests(accounts, requests);
+            int[] result = Solution.BankRequests(accounts, requests);
 
             // Assert
             Assert.Equal(expectedResult, result);

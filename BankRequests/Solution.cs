@@ -1,86 +1,152 @@
-﻿namespace BankRequests
+﻿using System;
+
+namespace BankRequests
 {
     public class Solution
     {
-        public static int[] bankRequests(int[] accounts, string[] requests)
+        private const char REQUEST_DELIMITER = ' ';
+        private const int MAP_ACCOUNT_NUMBER_TO_IDX = -1;
+        private const int MAP_ACCOUNT_IDX_TO_NUMBER = 1;
+
+
+        public enum BankRequestEnum { TRANSFER, DEPOSIT, WITHDRAW };
+
+        public static int[] BankRequests(int[] accounts, string[] requests)
         {
-            string requestType;
+            BankRequestEnum requestType;
             string[] requestArgs;
-            int maxAccountNumber = accounts.Length + 1;
             int numberOfRequests = requests.Length;
-            string request;
 
-            int ithAccount;
-            int jthAccount;
-            int sum;
-            bool ok;
-            int deposit = 0;
-            for (int i = 0; i < numberOfRequests; i++)
+            int requestNumber = 0;
+            try
             {
-                request = requests[i];
-                requestType = request.Substring(0, request.IndexOf(' '));
-                requestArgs = request.Substring(requestType.Length + 1).Split(' ');
-                ok = false;
-                switch (requestType)
+                while (requestNumber < numberOfRequests)
                 {
-                    case "transfer":    // i j sum => sum from i'th account to j'th
-                        ithAccount = int.Parse(requestArgs[0]);
-                        jthAccount = int.Parse(requestArgs[1]);
-                        sum = int.Parse(requestArgs[2]);
-
-                        if (0 < ithAccount && ithAccount < maxAccountNumber)
-                        {
-                            if (0 < jthAccount && jthAccount < maxAccountNumber)
-                            {
-                                if (accounts[ithAccount - 1] >= sum)
-                                {
-                                    accounts[ithAccount - 1] -= sum;
-                                    accounts[jthAccount - 1] += sum;
-                                    ok = true;
-                                }
-                            }
-                        }
-                        if (!ok)
-                        {
-                            return new int[] { -1 * (i + 1) };
-                        }
-                        break;
-                    case "deposit": // i sum => deposit sum to account i'th
-                        ithAccount = int.Parse(requestArgs[0]);
-                        sum = int.Parse(requestArgs[1]);
-
-                        if (0 < ithAccount && ithAccount < maxAccountNumber)
-                        {
-                            accounts[ithAccount - 1] += sum;
-                            ok = true;
-                        }
-
-                        if (!ok)
-                        {
-                            return new int[] { -1 * (i + 1) };
-                        }
-                        break;
-                    case "withdraw": // i sum => withdraw sum from account i'th
-                        ithAccount = int.Parse(requestArgs[0]);
-                        sum = int.Parse(requestArgs[1]);
-
-                        if (0 < ithAccount && ithAccount < maxAccountNumber)
-                        {
-                            if (sum <= accounts[ithAccount - 1])
-                            {
-                                deposit += sum;
-                                accounts[ithAccount - 1] -= sum;
-                                ok = true;
-                            }
-                        }
-                        if (!ok)
-                        {
-                            return new int[] { -1 * (i + 1) };
-                        }
-                        break;
+                    (requestType, requestArgs) = ParseRequest(request: requests[requestNumber]);
+                    switch (requestType)
+                    {
+                        case BankRequestEnum.TRANSFER:    // i j sum => sum from i'th account to j'th
+                            ParseTransferRequest(validAccounts: accounts, requestDetails: requestArgs);
+                            break;
+                        case BankRequestEnum.DEPOSIT: // i sum => deposit sum to account i'th
+                            ParseDepositRequest(validAccounts: accounts, requestDetails: requestArgs);
+                            break;
+                        case BankRequestEnum.WITHDRAW: // i sum => withdraw sum from account i'th
+                            ParseWithdrawRequest(validAccounts: accounts, requestDetails: requestArgs);
+                            break;
+                    }
+                    requestNumber += 1;
                 }
             }
+            catch (InvalidTransferException)
+            {
+                return ThrowRequestParsingError(requestNumber: requestNumber);
+            }
             return accounts;
+        }
+
+        private static void ParseTransferRequest(int[] validAccounts, string[] requestDetails)
+        {
+            (int ithAccount, int jthAccount, int sum) = ParseTransferRequestArgs(requestDetails: requestDetails);
+
+            if (AccountExists(validAccounts: validAccounts, accountToCheck: ithAccount)
+                && AccountExists(validAccounts: validAccounts, accountToCheck: jthAccount)
+                && AccountHasSufficientBalanceForOutgoingTransfer(validAccounts: validAccounts, accountToCheck: ithAccount, accountMin: sum))
+            {
+                TransferMoney(validAccounts: validAccounts, fromAccount: ithAccount, toAccount: jthAccount, toBeTransfered: sum);
+            }
+            else
+            {
+                throw new InvalidTransferException();
+            }
+        }
+
+        private static (int ithAccount, int jthAccount, int sum) ParseTransferRequestArgs(string[] requestDetails)
+        {
+            return (int.Parse(requestDetails[0]), int.Parse(requestDetails[1]), int.Parse(requestDetails[2]));
+        }
+
+        private static void TransferMoney(int[] validAccounts, int fromAccount, int toAccount, int toBeTransfered)
+        {
+            validAccounts[fromAccount + MAP_ACCOUNT_NUMBER_TO_IDX] -= toBeTransfered;
+            validAccounts[toAccount + MAP_ACCOUNT_NUMBER_TO_IDX] += toBeTransfered;
+        }
+
+        private static void ParseDepositRequest(int[] validAccounts, string[] requestDetails)
+        {
+            (int ithAccount, int sum) = ParseDepositRequestArgs(requestDetails: requestDetails);
+
+            if (AccountExists(validAccounts: validAccounts, accountToCheck: ithAccount))
+            {
+                DepositMoney(validAccounts: validAccounts, onAccount: ithAccount, toBeDeposited: sum);
+            }
+            else
+            {
+                throw new InvalidTransferException();
+            }
+        }
+
+        private static (int ithAccount, int sum) ParseDepositRequestArgs(string[] requestDetails)
+        {
+            return (int.Parse(requestDetails[0]), int.Parse(requestDetails[1]));
+        }
+
+        private static void DepositMoney(int[] validAccounts, int onAccount, int toBeDeposited)
+        {
+            validAccounts[onAccount + MAP_ACCOUNT_NUMBER_TO_IDX] += toBeDeposited;
+        }
+
+        private static void ParseWithdrawRequest(int[] validAccounts, string[] requestDetails)
+        {
+            (int ithAccount, int sum) = ParseWithdrawRequestArgs(requestDetails: requestDetails);
+
+            if (AccountExists(validAccounts: validAccounts, accountToCheck: ithAccount)
+                && AccountHasSufficientBalanceForOutgoingTransfer(validAccounts: validAccounts, accountToCheck: ithAccount, accountMin: sum))
+            {
+                WithdrawMoney(validAccounts: validAccounts, fromAccount: ithAccount, tobeWithdrawed: sum);
+            }
+            else
+            {
+                throw new InvalidTransferException();
+            }
+        }
+
+        private static (int ithAccount, int sum) ParseWithdrawRequestArgs(string[] requestDetails)
+        {
+            return (int.Parse(requestDetails[0]), int.Parse(requestDetails[1]));
+        }
+
+        private static void WithdrawMoney(int[] validAccounts, int fromAccount, int tobeWithdrawed)
+        {
+            validAccounts[fromAccount + MAP_ACCOUNT_NUMBER_TO_IDX] -= tobeWithdrawed;
+        }
+
+        private static bool AccountHasSufficientBalanceForOutgoingTransfer(int[] validAccounts, int accountToCheck, int accountMin)
+        {
+            return validAccounts[accountToCheck + MAP_ACCOUNT_NUMBER_TO_IDX] >= accountMin;
+        }
+
+        private static bool AccountExists(int[] validAccounts, int accountToCheck)
+        {
+            return 0 < accountToCheck && accountToCheck < validAccounts.Length + MAP_ACCOUNT_IDX_TO_NUMBER;
+        }
+
+        // Splits a REQUEST_DELIMITER separated request string into two parts: 
+        // type of request and it's variable length array of arguments.
+        private static (BankRequestEnum requestType, string[] requestArgs) ParseRequest(string request)
+        {
+            return (Enum.Parse<BankRequestEnum>(request.Substring(0, request.IndexOf(REQUEST_DELIMITER)).ToUpper()),
+                request.Substring(request.IndexOf(REQUEST_DELIMITER) + 1).Split(REQUEST_DELIMITER));
+        }
+
+        private static int[] ThrowRequestParsingError(int requestNumber)
+        {
+            return new int[] { -1 * (requestNumber + 1) };
+        }
+
+        [Serializable]
+        private class InvalidTransferException : Exception
+        {
         }
     }
 }
