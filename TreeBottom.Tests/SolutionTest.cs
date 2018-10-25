@@ -12,7 +12,7 @@ namespace TreeBottom.Tests
             // Arrange
 
             // Act
-            int[] result = Solution.treeBottom(tree);
+            int[] result = Solution.TreeBottom(tree);
 
             // Assert
             Assert.Equal(expectedResult, result);
