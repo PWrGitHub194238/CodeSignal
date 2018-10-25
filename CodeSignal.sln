@@ -48,6 +48,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeBottom", "TreeBottom\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeBottom.Tests", "TreeBottom.Tests\TreeBottom.Tests.csproj", "{AA5978AB-4779-4078-9854-17D61511375E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBoggle", "WordBoggle\WordBoggle.csproj", "{D32275A8-DF1B-4D65-9A91-0FC964B96C3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordBoggle.Tests", "WordBoggle.Tests\WordBoggle.Tests.csproj", "{883FD33D-E2DE-4A0D-8D3D-18294582CC02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +154,14 @@ Global
 		{AA5978AB-4779-4078-9854-17D61511375E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA5978AB-4779-4078-9854-17D61511375E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA5978AB-4779-4078-9854-17D61511375E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D32275A8-DF1B-4D65-9A91-0FC964B96C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32275A8-DF1B-4D65-9A91-0FC964B96C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D32275A8-DF1B-4D65-9A91-0FC964B96C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D32275A8-DF1B-4D65-9A91-0FC964B96C3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883FD33D-E2DE-4A0D-8D3D-18294582CC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883FD33D-E2DE-4A0D-8D3D-18294582CC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883FD33D-E2DE-4A0D-8D3D-18294582CC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883FD33D-E2DE-4A0D-8D3D-18294582CC02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
