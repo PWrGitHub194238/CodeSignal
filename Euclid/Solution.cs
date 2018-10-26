@@ -23,189 +23,96 @@ namespace Euclid
 
             double Gx = 0, Gy = 0, Hx = 0, Hy = 0;
 
-            double Hs = 0.5;
+            // Heron's formula
+            // nobody cares about order of a triangle's points.
+            double dDE = Math.Sqrt(Math.Pow(Dx - Ex, 2) + Math.Pow(Dy - Ey, 2));
+            double dEF = Math.Sqrt(Math.Pow(Ex - Fx, 2) + Math.Pow(Ey - Fy, 2));
+            double dFD = Math.Sqrt(Math.Pow(Fx - Dx, 2) + Math.Pow(Fy - Dy, 2));
+            double s = (dDE + dEF + dFD) / 2;
+            double triangleArea = Math.Sqrt(s * (s - dDE) * (s - dEF) * (s - dFD));
 
-            double Hs_min = 0;
-            double Hs_max = 1;
+        
+            double dAB = Math.Sqrt(Math.Pow(Ax - Bx, 2) + Math.Pow(Ay - By, 2));
 
-            double min = Math.Pow(-10, 5);
-            double max = Math.Pow(10, 5);
+            double oldHx;
+            double oldHy;
+
+            double dBH;
+            double dHA;
+            double s1;
+            double parallelogramArea;
 
             // współczynniki prostej AC: y = ax + b
             double aAC, bAC;
-            double min_x, min_y, max_x, max_y;
+            double min_x = Ax;
+            double min_y = Ay;
+            double max_x, max_y;
 
+            // Math.Pow(10, 5)
 
             // Jeśli AC nie jest x = 0 ani y = 0 (jest nachylona pod dowolnym innym kątem
             if (Ax - Cx != 0 && Ay - Cy != 0)
             {
                 aAC = (Ay - Cy) / (Ax - Cx);
                 bAC = Ay - (Ay - Cy) / (Ax - Cx) * Ax;
-                if (aAC >= 0)
-                {
-                    min_x = -bAC / aAC;
-                    min_y = 0;
-                    max_x = max;
-                    max_y = aAC * max_x + bAC;
-                }
-                else
-                {
-                    min_x = min;
-                    min_y = 0;
-                    max_x = -bAC / aAC;
-                    max_y = aAC * max_x + bAC;
-                }
-                /*min_x = min;
-                min_y = aAC * min_x + bAC;
-                max_x = max;
-                max_y = aAC * max_x + bAC;*/
+                max_x = Math.Pow(10, 5);
+                max_y = aAC * max_x + bAC;
             }
             else if (Ax - Cx == 0)  // x = 0
             {
-                min_x = 0;
-                min_y = min;
                 max_x = 0;
-                max_y = max;
+                max_y = Math.Pow(10, 5);
             }
-            else
+            else    // y = 0
             {
-                min_x = min;
-                min_y = 0;
-                max_x = max;
+                max_x = Math.Pow(10, 5);
                 max_y = 0;
             }
 
+            do {
+                oldHx = Hx;
+                oldHy = Hy;
 
-            // Heron's formula
-            // nobody cares about order of a triangle's points.
-            double a = Math.Sqrt(Math.Pow(Dx - Ex, 2) + Math.Pow(Dy - Ey, 2));
-            double b = Math.Sqrt(Math.Pow(Ex - Fx, 2) + Math.Pow(Ey - Fy, 2));
-            double c = Math.Sqrt(Math.Pow(Fx - Dx, 2) + Math.Pow(Fy - Dy, 2));
-            double s = (a + b + c) / 2;
-            double triangleArea = Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+                Hx = (min_x + max_x) / 2;
+                Hy = (min_y + max_y) / 2;
 
-            double paralellogramArea;
+                dBH = Math.Sqrt(Math.Pow(Bx - Hx, 2) + Math.Pow(By - Hy, 2));
+                dHA = Math.Sqrt(Math.Pow(Hx - Ax, 2) + Math.Pow(Hy - Ay, 2));
+                s1 = (dAB + dBH + dHA) / 2;
+                parallelogramArea = Math.Sqrt(s1 * (s1 - dAB) * (s1 - dBH) * (s1 - dHA)) * 2;
 
-
-            double dAB = Math.Sqrt(Math.Pow(Ax - Bx, 2) + Math.Pow(Ay - By, 2));    // |AB|
-
-            double dAC = Math.Sqrt(Math.Pow(Ax - Cx, 2) + Math.Pow(Ay - Cy, 2));    // |AC|
-
-            // współczynniki prostej AB: y = ax + b
-            double aAB = (Ay - By) / (Ax - Bx);
-            double bAB = Ay - (Ay - By) / (Ax - Bx) * Ax;
-
-            paralellogramArea = double.MinValue;
-
-            while (Math.Round(triangleArea, 3) != Math.Round(paralellogramArea, 3))
-            {
-                // równanie parametryczne dla punktu H (Hs - [0,1])
-                Hx = max_x * Hs + min_x * (1 - Hs);
-                Hy = max_y * Hs + min_y * (1 - Hs);
-
-                // A, B, H are 3 of 4 points of paralellogram,
-                // A, H are guaranteed to form a one side of it
-                double dAH = Math.Sqrt(Math.Pow(Ax - Hx, 2) + Math.Pow(Ay - Hy, 2));    // |AH|
-
-
-                if (Ax - Hx == 0)   // AH) x = 0
+                if (parallelogramArea < triangleArea)
                 {
-                    paralellogramArea = dAH * Math.Abs(Ax - Bx);
-                    Gx = Bx;
-                    if (By > Ay)
-                    {
-                        Gy = By + dAH;
-                    }
-                    else if (By == Ay)
-                    {
-                        Gy = Hy;
-                    }
-                    else
-                    {
-                        Gy = By - dAH;
-                    }
-                }
-                else if (aAB == 0)  // AB) y = 0
+                    min_x = Hx;
+                    min_y = Hy;
+                } else
                 {
-                    double h = dAH;
-                    paralellogramArea = dAB * h;
-                    Gx = Bx;
-                    Gy = Hy;
+                    max_x = Hx;
+                    max_y = Hy;
                 }
-                else
-                {
+                
+            } while (Math.Round(oldHx,3) != Math.Round(Hx, 3) || Math.Round(oldHy, 3) != Math.Round(Hy, 3));
 
-                    // punkt przecięcia prostej prostopadłej do AB, przechodzącej przez C
-                    double Ix, Iy;
+            /*double cABx = (Ax + Bx) / 2;
+            double cABy = (Ay + By) / 2;
 
-                    // równanie prostej prostopadłej do AB: y = -1/a * x + b' i przechodzącej przez C
-                    double aCI = -1 / aAB;
-                    double bCI = Cy - aCI * Cx;
 
-                    // punkt przecięcia prostych AB i CI
-                    Ix = -(bAB - bCI) / (aAB - aCI);
-                    Iy = (aAB * bCI - aCI * bAB) / (aAB - aCI);
+            Gx = cABx * 2 - Hx;
+            Gy = cABy * 2 - Hy;*/
 
-                    double dCI = Math.Sqrt(Math.Pow(Cx - Ix, 2) + Math.Pow(Cy - Iy, 2));    // |CI|
+            double cHBx = (Hx + Bx) / 2;
+            double cHBy = (Hy + By) / 2;
 
-                    double sin_a = dCI / dAC;
 
-                    // CI - równanie prostopadłej do AB, przechodzącej przez C,
-                    // J - punkt przecięcia CI z AB
-                    // AJ - podstawa trójkąta AJC, JC - wysokość AJC i wysokość równoległoboku
-                    double h = dAH * sin_a;
-                    paralellogramArea = dAB * h;
+            Gx = cHBx * 2 - Ax;
+            Gy = cHBy * 2 - Ay; 
 
-                    // równanie prostej równoległej do AB: y = a * x + b' i przechodzącej przez H
-                    double aaHG = aAB;
-                    double bbHG = Hy - aaHG * Hx;
-
-                    // współczynniki prostej AH: y = ax + b
-                    double aAH = (Ay - Hy) / (Ax - Hx);
-                    double bAH = Ay - (Ay - Hy) / (Ax - Hx) * Ax;
-
-                    // równanie prostej równoległej do AH: y = a * x + b' i przechodzącej przez B
-                    double aaBG = aAH;
-                    double bbBG = By - aaBG * Bx;
-
-                    // punkt przecięcia prostych HG i BG
-                    Gx = -(bbHG - bbBG) / (aaHG - aaBG);
-                    Gy = (aaHG * bbBG - aaBG * bbHG) / (aaHG - aaBG);
-                }
-
-                if (Hy < Ay)
-                {
-                    if (paralellogramArea > triangleArea)
-                    {
-                        Hs_min = Hs;
-
-                    }
-                    else
-                    {
-                        Hs_max = Hs;
-                    }
-                }
-                else
-                {
-                    if (paralellogramArea < triangleArea)
-                    {
-                        Hs_min = Hs;
-
-                    }
-                    else
-                    {
-                        Hs_max = Hs;
-                    }
-                }
-
-                Hs = (Hs_max + Hs_min) / 2;
-            }
-
-            Gx = Math.Round(Gx, 3);
-            Gy = Math.Round(Gy, 3);
-            Hx = Math.Round(Hx, 3);
-            Hy = Math.Round(Hy, 3);
-            return new double[] { Gx, Gy, Hx, Hy };
+            return new double[] {
+                Math.Round(Gx, 3),
+                Math.Round(Gy, 3),
+                Math.Round(Hx, 3),
+                Math.Round(Hy, 3)
+            };
         }
     }
 }
