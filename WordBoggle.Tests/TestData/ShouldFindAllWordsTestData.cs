@@ -123,4 +123,3 @@ namespace WordBoggle.Tests.TestData
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
-

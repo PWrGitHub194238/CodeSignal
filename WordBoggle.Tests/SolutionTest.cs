@@ -12,7 +12,7 @@ namespace WordBoggle.Tests
             // Arrange
 
             // Act
-            string[] result = Solution.wordBoggle(board, words);
+            string[] result = Solution.WordBoggle(board, words);
 
             // Assert
             Assert.Equal(expectedResult, result);
