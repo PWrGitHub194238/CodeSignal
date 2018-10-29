@@ -12,7 +12,7 @@ namespace CenturyFromYear.Tests
             // Arrange
 
             // Act
-            int result = Solution.centuryFromYear(year);
+            int result = Solution.CenturyFromYear(year);
 
             // Assert
             Assert.Equal(expectedResult, result);

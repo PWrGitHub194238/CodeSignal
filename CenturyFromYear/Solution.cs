@@ -2,9 +2,6 @@
 {
     public class Solution
     {
-        public static int centuryFromYear(int year)
-        {
-            return (year + 99) / 100;
-        }
+        public static int CenturyFromYear(int year) => (year + 99) / 100;
     }
 }
