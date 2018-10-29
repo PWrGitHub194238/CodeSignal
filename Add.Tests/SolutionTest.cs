@@ -12,7 +12,7 @@ namespace Add.Tests
             // Arrange
 
             // Act
-            int result = Solution.add(param1, param2);
+            int result = Solution.Add(param1, param2);
 
             // Assert
             Assert.Equal(expectedResult, result);

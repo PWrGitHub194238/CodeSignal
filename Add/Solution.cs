@@ -1,11 +1,7 @@
-﻿
-namespace Add
+﻿namespace Add
 {
     public class Solution
     {
-        public static int add(int param1, int param2)
-        {
-            return param1 + param2;
-        }
+        public static int Add(int param1, int param2) => param1 + param2;
     }
 }
