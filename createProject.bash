@@ -245,7 +245,7 @@ namespace ${PROJECT_NAME}.Tests.TestData
 
 	if git rev-parse --git-dir > /dev/null 2>&1; then
 		git add *
-		git commit -m "${PROJECT_NAME} - generate from template"
+		git commit -m "${PROJECT_NAME} - generated from template."
 	fi
 }
 

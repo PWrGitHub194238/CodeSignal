@@ -10,7 +10,7 @@ So, a tree can be written as `(value left_subtree right_subtree)`. It is guarant
 
 `(2 (7 (2 () ()) (6 (5 () ()) (11 () ()))) (5 () (9 (4 () ()) ())))`
 
-![example_tree](https://github.com/PWrGitHub194238/CodeSignal/master/TreeBottom/tree.png)
+![example_tree](https://github.com/PWrGitHub194238/CodeSignal/blob/master/TreeBottom/tree.png)
 
 Your task is to obtain a list of nodes, that are the most distant from the tree root, in the order from left to right.
 
