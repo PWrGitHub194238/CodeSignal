@@ -78,9 +78,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CenturyFromYear", "CenturyF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CenturyFromYear.Tests", "CenturyFromYear.Tests\CenturyFromYear.Tests.csproj", "{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPalindrome", "CheckPalindrome\CheckPalindrome.csproj", "{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckPalindrome", "CheckPalindrome\CheckPalindrome.csproj", "{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPalindrome.Tests", "CheckPalindrome.Tests\CheckPalindrome.Tests.csproj", "{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckPalindrome.Tests", "CheckPalindrome.Tests\CheckPalindrome.Tests.csproj", "{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -245,6 +245,8 @@ Global
 		{E8D09D8A-E7B0-4146-9619-743E4FC5D707} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
 		{C8FDC637-2061-4E80-AF5C-13BBB1D60FB7} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
 		{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
+		{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
+		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0044EB01-EEB3-44EB-982E-235549ACA104}

@@ -1,9 +1,8 @@
-﻿
-namespace CheckPalindrome
+﻿namespace CheckPalindrome
 {
     public class Solution
     {
-        public static bool checkPalindrome(string inputString)
+        public static bool CheckPalindrome(string inputString)
         {
             if (inputString.Length < 2)
             {

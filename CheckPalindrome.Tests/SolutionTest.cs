@@ -12,7 +12,7 @@ namespace CheckPalindrome.Tests
             // Arrange
 
             // Act
-            bool result = Solution.checkPalindrome(inputString);
+            bool result = Solution.CheckPalindrome(inputString);
 
             // Assert
             Assert.Equal(expectedResult, result);
