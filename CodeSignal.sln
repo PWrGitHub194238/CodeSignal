@@ -78,6 +78,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CenturyFromYear", "CenturyF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CenturyFromYear.Tests", "CenturyFromYear.Tests\CenturyFromYear.Tests.csproj", "{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPalindrome", "CheckPalindrome\CheckPalindrome.csproj", "{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckPalindrome.Tests", "CheckPalindrome.Tests\CheckPalindrome.Tests.csproj", "{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -196,6 +200,14 @@ Global
 		{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
