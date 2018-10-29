@@ -5,114 +5,173 @@ namespace Euclid
 {
     public class Solution
     {
-        public static double[] euclid(double[] coordinates)
+        public const char FIRST_POINT_CHAR = 'A';
+
+        public const char PARALLELOGRAM_POINT_1 = 'A';
+        public const char PARALLELOGRAM_POINT_2 = 'B';
+
+        public const char POINT_C = 'C';
+
+        public const char TRIANGLE_POINT_1 = 'D';
+        public const char TRIANGLE_POINT_2 = 'E';
+        public const char TRIANGLE_POINT_3 = 'F';
+
+        public struct Point
         {
-            double Ax = coordinates[0];
-            double Ay = coordinates[1];
-            double Bx = coordinates[2];
-            double By = coordinates[3];
-            double Cx = coordinates[4];
-            double Cy = coordinates[5];
+            public readonly double x;
+            public readonly double y;
 
-            double Dx = coordinates[6];
-            double Dy = coordinates[7];
-            double Ex = coordinates[8];
-            double Ey = coordinates[9];
-            double Fx = coordinates[10];
-            double Fy = coordinates[11];
+            public Point(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
 
-            double Gx = 0, Gy = 0, Hx = 0, Hy = 0;
+        public static double[] Euclid(double[] coordinates)
+        {
+            // Get points from array of coordinates.
+            Point A = MakePoint(coordinates: coordinates, name: PARALLELOGRAM_POINT_1);
+            Point B = MakePoint(coordinates: coordinates, name: PARALLELOGRAM_POINT_2);
+            Point C = MakePoint(coordinates: coordinates, name: POINT_C);
+            Point D = MakePoint(coordinates: coordinates, name: TRIANGLE_POINT_1);
+            Point E = MakePoint(coordinates: coordinates, name: TRIANGLE_POINT_2);
+            Point F = MakePoint(coordinates: coordinates, name: TRIANGLE_POINT_3);
 
-            // Heron's formula
-            // nobody cares about order of a triangle's points.
-            double dDE = Math.Sqrt(Math.Pow(Dx - Ex, 2) + Math.Pow(Dy - Ey, 2));
-            double dEF = Math.Sqrt(Math.Pow(Ex - Fx, 2) + Math.Pow(Ey - Fy, 2));
-            double dFD = Math.Sqrt(Math.Pow(Fx - Dx, 2) + Math.Pow(Fy - Dy, 2));
-            double s = (dDE + dEF + dFD) / 2;
-            double triangleArea = Math.Sqrt(s * (s - dDE) * (s - dEF) * (s - dFD));
+            Point G;
+            Point H;
+            Point prevH;
 
-        
-            double dAB = Math.Sqrt(Math.Pow(Ax - Bx, 2) + Math.Pow(Ay - By, 2));
-
-            double oldHx;
-            double oldHy;
-
-            double dBH;
-            double dHA;
-            double s1;
+            // We have to find G and H in such a way that area of parallelogram ABGH is the same as triangle's.
+            double triangleArea = GetTriangleArea(pointA: D, pointB: E, pointC: F);
             double parallelogramArea;
 
-            // współczynniki prostej AC: y = ax + b
-            double aAC, bAC;
-            double min_x = Ax;
-            double min_y = Ay;
+            double min_x = A.x;
+            double min_y = A.y;
             double max_x, max_y;
 
-            // Math.Pow(10, 5)
+            // Based on AC line (point H lies on that straight line) and min/max allowed coordinates [-10^{5},10^{5}]
+            // we calculate max point on AC line (assuming that we want max_x > A.x and max_y > A.y).
+            (max_x, max_y) = GetStraightLineFunctionMaxValues(linceFunctionCoefficients: GetStraightLineCoefficients(pointA: A, pointB: C));
 
-            // Jeśli AC nie jest x = 0 ani y = 0 (jest nachylona pod dowolnym innym kątem
-            if (Ax - Cx != 0 && Ay - Cy != 0)
+            // Calculate first middle point of two end values on line AC.
+            H = new Point((min_x + max_x) / 2, (min_y + max_y) / 2);
+
+            // Do Binary Search controlled by parallelogram area,
+            // break if diffenece between old point H and the new is meaningless.
+            do
             {
-                aAC = (Ay - Cy) / (Ax - Cx);
-                bAC = Ay - (Ay - Cy) / (Ax - Cx) * Ax;
+                prevH = new Point(H.x, H.y);
+
+                parallelogramArea = GetParallelogramArea(pointA: A, pointB: B, pointC: H);
+
+                if (parallelogramArea < triangleArea)
+                {
+                    min_x = H.x;
+                    min_y = H.y;
+                }
+                else
+                {
+                    max_x = H.x;
+                    max_y = H.y;
+                }
+                H = new Point((min_x + max_x) / 2, (min_y + max_y) / 2);
+            } while (Math.Round(prevH.x, 3) != Math.Round(H.x, 3) || Math.Round(prevH.y, 3) != Math.Round(H.y, 3));
+
+            G = GetMirroredPointByPoint(sourcePoint: A, mirrorByPoint: new Point((H.x + B.x) / 2, (H.y + B.y) / 2));
+
+            return new double[] {
+                Math.Round(G.x, 3),
+                Math.Round(G.y, 3),
+                Math.Round(H.x, 3),
+                Math.Round(H.y, 3)
+            };
+        }
+
+        private static Point GetMirroredPointByPoint(Point sourcePoint, Point mirrorByPoint)
+        {
+            return new Point(mirrorByPoint.x * 2 - sourcePoint.x, mirrorByPoint.y * 2 - sourcePoint.y);
+        }
+
+        private static bool IsConstantFunction(double scaleCoefficient, double shiftCoefficient)
+        {
+            return scaleCoefficient == 0;
+        }
+
+        private static bool IsNotOneToOneFunction(double scaleCoefficient, double shiftCoefficient)
+        {
+            return scaleCoefficient == double.NegativeInfinity && shiftCoefficient == double.PositiveInfinity;
+        }
+
+        private static (double max_x, double max_y) GetStraightLineFunctionMaxValues(
+            (double scaleCoefficient, double shiftCoefficient) linceFunctionCoefficients)
+        {
+            double max_x;
+            double max_y;
+            bool isOneToOneFunction = !IsNotOneToOneFunction(scaleCoefficient: linceFunctionCoefficients.scaleCoefficient,
+                shiftCoefficient: linceFunctionCoefficients.shiftCoefficient);
+            bool isNotContantFunction = !IsConstantFunction(scaleCoefficient: linceFunctionCoefficients.scaleCoefficient,
+                shiftCoefficient: linceFunctionCoefficients.shiftCoefficient);
+
+            if (isOneToOneFunction && isNotContantFunction)
+            {
                 max_x = Math.Pow(10, 5);
-                max_y = aAC * max_x + bAC;
+                max_y = linceFunctionCoefficients.scaleCoefficient * max_x + linceFunctionCoefficients.shiftCoefficient;
             }
-            else if (Ax - Cx == 0)  // x = 0
+            else if (!isOneToOneFunction)  // x = b
             {
                 max_x = 0;
                 max_y = Math.Pow(10, 5);
             }
-            else    // y = 0
+            else    // y = b
             {
                 max_x = Math.Pow(10, 5);
                 max_y = 0;
             }
 
-            do {
-                oldHx = Hx;
-                oldHy = Hy;
+            return (max_x, max_y);
+        }
 
-                Hx = (min_x + max_x) / 2;
-                Hy = (min_y + max_y) / 2;
+        // Parallelogram is nothing more than two same triangles and we can caclulate it's area as such.
+        private static double GetParallelogramArea(Point pointA, Point pointB, Point pointC)
+        {
+            return GetTriangleArea(pointA: pointA, pointB: pointB, pointC: pointC) * 2;
+        }
 
-                dBH = Math.Sqrt(Math.Pow(Bx - Hx, 2) + Math.Pow(By - Hy, 2));
-                dHA = Math.Sqrt(Math.Pow(Hx - Ax, 2) + Math.Pow(Hy - Ay, 2));
-                s1 = (dAB + dBH + dHA) / 2;
-                parallelogramArea = Math.Sqrt(s1 * (s1 - dAB) * (s1 - dBH) * (s1 - dHA)) * 2;
+        private static (double scaleCoefficient, double shiftCoefficient) GetStraightLineCoefficients(Point pointA, Point pointB)
+        {
+            if (pointA.x - pointB.x == 0) return (double.NegativeInfinity, double.PositiveInfinity);
+            if (pointA.y - pointB.y == 0) return (0, pointA.y);
+            double aAB = (pointA.y - pointB.y) / (pointA.x - pointB.x);
+            return (aAB, pointA.y - aAB * pointA.x);
+        }
 
-                if (parallelogramArea < triangleArea)
-                {
-                    min_x = Hx;
-                    min_y = Hy;
-                } else
-                {
-                    max_x = Hx;
-                    max_y = Hy;
-                }
-                
-            } while (Math.Round(oldHx,3) != Math.Round(Hx, 3) || Math.Round(oldHy, 3) != Math.Round(Hy, 3));
+        // Heron's formula
+        private static double GetTriangleArea(Point pointA, Point pointB, Point pointC)
+        {
+            double dAB = GetDistanceBetweenPoints(pointA: pointA, pointB: pointB);
+            double dBC = GetDistanceBetweenPoints(pointA: pointB, pointB: pointC);
+            double dCA = GetDistanceBetweenPoints(pointA: pointC, pointB: pointA);
+            double s = (dAB + dBC + dCA) / 2;
+            return Math.Sqrt(s * (s - dAB) * (s - dBC) * (s - dCA));
+        }
 
-            /*double cABx = (Ax + Bx) / 2;
-            double cABy = (Ay + By) / 2;
+        // Calculate distances from point to point (Pitagoras' formula)
+        private static double GetDistanceBetweenPoints(Point pointA, Point pointB)
+        {
+            return Math.Sqrt(Math.Pow(pointA.x - pointB.x, 2) + Math.Pow(pointA.y - pointB.y, 2));
+        }
 
+        private static Point MakePoint(double[] coordinates, char name)
+        {
+            int argsIdxX = 2 * MapCharToIdx(name);
+            int argsIdxY = argsIdxX + 1;
+            return new Point(coordinates[argsIdxX], coordinates[argsIdxY]);
+        }
 
-            Gx = cABx * 2 - Hx;
-            Gy = cABy * 2 - Hy;*/
-
-            double cHBx = (Hx + Bx) / 2;
-            double cHBy = (Hy + By) / 2;
-
-
-            Gx = cHBx * 2 - Ax;
-            Gy = cHBy * 2 - Ay; 
-
-            return new double[] {
-                Math.Round(Gx, 3),
-                Math.Round(Gy, 3),
-                Math.Round(Hx, 3),
-                Math.Round(Hy, 3)
-            };
+        private static int MapCharToIdx(char name)
+        {
+            return name - FIRST_POINT_CHAR;
         }
     }
 }

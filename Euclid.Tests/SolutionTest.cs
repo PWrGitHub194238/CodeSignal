@@ -12,7 +12,7 @@ namespace Euclid.Tests
             // Arrange
 
             // Act
-            double[] result = Solution.euclid(coordinates);
+            double[] result = Solution.Euclid(coordinates);
 
             // Assert
             Assert.Equal(expectedResult, result);
