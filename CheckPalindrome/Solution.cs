@@ -5,7 +5,27 @@ namespace CheckPalindrome
     {
         public static bool checkPalindrome(string inputString)
         {
-            return (bool)new object();
+            if (inputString.Length < 2)
+            {
+                return true;
+            }
+            else
+            {
+                int i = 0;
+                int j = inputString.Length - 1;
+                int halfUpLength = (inputString.Length + 1) / 2;
+                char[] charArray = inputString.ToCharArray();
+                do
+                {
+                    if (charArray[i] != charArray[j])
+                    {
+                        return false;
+                    }
+                    i += 1;
+                    j -= 1;
+                } while (i < halfUpLength);
+                return true;
+            }
         }
     }
 }
