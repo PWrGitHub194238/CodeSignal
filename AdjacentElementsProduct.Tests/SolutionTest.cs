@@ -12,7 +12,7 @@ namespace AdjacentElementsProduct.Tests
             // Arrange
 
             // Act
-            int result = Solution.adjacentElementsProduct(inputArray);
+            int result = Solution.AdjacentElementsProduct(inputArray);
 
             // Assert
             Assert.Equal(expectedResult, result);

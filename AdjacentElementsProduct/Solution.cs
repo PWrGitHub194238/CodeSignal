@@ -1,9 +1,8 @@
-﻿
-namespace AdjacentElementsProduct
+﻿namespace AdjacentElementsProduct
 {
     public class Solution
     {
-        public static int adjacentElementsProduct(int[] inputArray)
+        public static int AdjacentElementsProduct(int[] inputArray)
         {
             int product;
             int maxIdx = inputArray.Length - 1;
