@@ -82,9 +82,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckPalindrome", "CheckPal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckPalindrome.Tests", "CheckPalindrome.Tests\CheckPalindrome.Tests.csproj", "{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdjacentElementsProduct", "AdjacentElementsProduct\AdjacentElementsProduct.csproj", "{50A3A8BA-FEDC-42BE-BC94-30F2D59AC0C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdjacentElementsProduct", "AdjacentElementsProduct\AdjacentElementsProduct.csproj", "{50A3A8BA-FEDC-42BE-BC94-30F2D59AC0C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdjacentElementsProduct.Tests", "AdjacentElementsProduct.Tests\AdjacentElementsProduct.Tests.csproj", "{5516F3FB-845F-4043-B360-724AEF2992C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdjacentElementsProduct.Tests", "AdjacentElementsProduct.Tests\AdjacentElementsProduct.Tests.csproj", "{5516F3FB-845F-4043-B360-724AEF2992C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -259,6 +259,8 @@ Global
 		{31F6C114-0C6C-44B2-86D0-C7EF6C48F7B3} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
 		{C3AA8A7A-50D1-4E29-ADF2-1A0E0144EE34} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
 		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
+		{50A3A8BA-FEDC-42BE-BC94-30F2D59AC0C6} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
+		{5516F3FB-845F-4043-B360-724AEF2992C8} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0044EB01-EEB3-44EB-982E-235549ACA104}
