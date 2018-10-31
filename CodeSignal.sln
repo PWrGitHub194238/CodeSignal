@@ -86,9 +86,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdjacentElementsProduct", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdjacentElementsProduct.Tests", "AdjacentElementsProduct.Tests\AdjacentElementsProduct.Tests.csproj", "{5516F3FB-845F-4043-B360-724AEF2992C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeArrayConsecutive2", "MakeArrayConsecutive2\MakeArrayConsecutive2.csproj", "{8B03BE0C-CDC7-407A-8332-DCCA29BDADBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeArrayConsecutive2", "MakeArrayConsecutive2\MakeArrayConsecutive2.csproj", "{8B03BE0C-CDC7-407A-8332-DCCA29BDADBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeArrayConsecutive2.Tests", "MakeArrayConsecutive2.Tests\MakeArrayConsecutive2.Tests.csproj", "{8FD31BE2-93A6-4987-9457-1E358DFF931F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeArrayConsecutive2.Tests", "MakeArrayConsecutive2.Tests\MakeArrayConsecutive2.Tests.csproj", "{8FD31BE2-93A6-4987-9457-1E358DFF931F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -273,6 +273,8 @@ Global
 		{21B2FDF1-ACA7-4D8F-8104-A1F00BC18C47} = {3EBC7E00-D5A0-4E4C-B9D9-07DE0CC6AB2B}
 		{50A3A8BA-FEDC-42BE-BC94-30F2D59AC0C6} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
 		{5516F3FB-845F-4043-B360-724AEF2992C8} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
+		{8B03BE0C-CDC7-407A-8332-DCCA29BDADBD} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
+		{8FD31BE2-93A6-4987-9457-1E358DFF931F} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0044EB01-EEB3-44EB-982E-235549ACA104}
