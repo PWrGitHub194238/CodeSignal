@@ -3,36 +3,36 @@ namespace MakeArrayConsecutive2
 {
     public class Solution
     {
-        public static int makeArrayConsecutive2(int[] statues)
+        public const int MIN_STATUSE_SIZE = 0;
+        public const int MAX_STATUSE_SIZE = 20;
+
+        public static int MakeArrayConsecutive2(int[] statues)
         {
-            int smallestStatueSize = 0;
-            int biggestStatusSize = 0;
-            bool[] hasStatueOfSize = new bool[20];
+            int smallestStatueSizeIdx = MIN_STATUSE_SIZE;
+            int biggestStatusSizeIdx = MAX_STATUSE_SIZE;
+            bool[] hasStatueOfSize = new bool[MAX_STATUSE_SIZE - MIN_STATUSE_SIZE + 1];
+            int statuesArrayLength = statues.Length;
             int missingStatues = 0;
 
-            for (int idx = 0; idx < statues.Length; idx++)
+            // mark statues of given sizes as posessed
+            for (int idx = 0; idx < statuesArrayLength; idx += 1)
             {
                 hasStatueOfSize[statues[idx]] = true;
             }
 
-            for (int idx = 0; idx < hasStatueOfSize.Length; idx++)
+            // stop when we have found the smallest statue in the colection
+            while (!hasStatueOfSize[smallestStatueSizeIdx])
             {
-                if (hasStatueOfSize[idx] == true)
-                {
-                    smallestStatueSize = idx;
-                    break;
-                }
-            }
-            for (int idx = hasStatueOfSize.Length - 1; idx >= 0; idx -= 1)
-            {
-                if (hasStatueOfSize[idx] == true)
-                {
-                    biggestStatusSize = idx;
-                    break;
-                }
+                smallestStatueSizeIdx += 1;
             }
 
-            for (int idx = smallestStatueSize; idx <= biggestStatusSize; idx++)
+            // stop when we have found the biggest statue in the colection
+            while (!hasStatueOfSize[biggestStatusSizeIdx])
+            {
+                biggestStatusSizeIdx -= 1;
+            }
+
+            for (int idx = smallestStatueSizeIdx; idx <= biggestStatusSizeIdx; idx++)
             {
                 if (hasStatueOfSize[idx] == false)
                 {

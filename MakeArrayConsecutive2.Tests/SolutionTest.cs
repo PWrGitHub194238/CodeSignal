@@ -12,7 +12,7 @@ namespace MakeArrayConsecutive2.Tests
             // Arrange
 
             // Act
-            int result = Solution.makeArrayConsecutive2(statues);
+            int result = Solution.MakeArrayConsecutive2(statues);
 
             // Assert
             Assert.Equal(expectedResult, result);
