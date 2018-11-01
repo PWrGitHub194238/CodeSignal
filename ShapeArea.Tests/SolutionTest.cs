@@ -12,7 +12,7 @@ namespace ShapeArea.Tests
             // Arrange
 
             // Act
-            int result = Solution.shapeArea(n);
+            int result = Solution.ShapeArea(n);
 
             // Assert
             Assert.Equal(expectedResult, result);
