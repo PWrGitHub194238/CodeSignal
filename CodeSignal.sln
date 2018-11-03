@@ -94,6 +94,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmostIncreasingSequence", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmostIncreasingSequence.Tests", "AlmostIncreasingSequence.Tests\AlmostIncreasingSequence.Tests.csproj", "{3AE0A6FB-8741-4F71-A3B7-696F3E0D7081}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixElementsSum", "MatrixElementsSum\MatrixElementsSum.csproj", "{C957D648-EBD6-41FB-BCD5-BB4681904987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixElementsSum.Tests", "MatrixElementsSum.Tests\MatrixElementsSum.Tests.csproj", "{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +248,14 @@ Global
 		{3AE0A6FB-8741-4F71-A3B7-696F3E0D7081}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AE0A6FB-8741-4F71-A3B7-696F3E0D7081}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AE0A6FB-8741-4F71-A3B7-696F3E0D7081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C957D648-EBD6-41FB-BCD5-BB4681904987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C957D648-EBD6-41FB-BCD5-BB4681904987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C957D648-EBD6-41FB-BCD5-BB4681904987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C957D648-EBD6-41FB-BCD5-BB4681904987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
