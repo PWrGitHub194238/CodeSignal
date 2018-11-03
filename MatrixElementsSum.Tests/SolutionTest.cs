@@ -12,7 +12,7 @@ namespace MatrixElementsSum.Tests
             // Arrange
 
             // Act
-            int result = Solution.matrixElementsSum(matrix);
+            int result = Solution.MatrixElementsSum(matrix);
 
             // Assert
             Assert.Equal(expectedResult, result);

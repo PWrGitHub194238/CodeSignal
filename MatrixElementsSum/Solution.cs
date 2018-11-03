@@ -1,16 +1,15 @@
-﻿
-namespace MatrixElementsSum
+﻿namespace MatrixElementsSum
 {
     public class Solution
     {
-        public static int matrixElementsSum(int[][] matrix)
+        public static int MatrixElementsSum(int[][] matrix)
         {
             if (matrix.Length == 0) return 0;
 
             int matrixWidth = matrix[0].Length;
             int matrixHeight = matrix.Length;
 
-            bool[] roomsInColumnAreHaunted = new bool[matrixWidth];
+            int[] roomsInColumnAreHaunted = new int[matrixWidth];
 
             int totalPrice = 0;
 
@@ -18,13 +17,16 @@ namespace MatrixElementsSum
             {
                 for (int j = 0; j < matrixWidth; j++)
                 {
-                    if (roomsInColumnAreHaunted[j] == false && matrix[i][j] == 0)
+                    // If there where no free room yet in j'th column and current room is free
+                    if (roomsInColumnAreHaunted[j] == 0 && matrix[i][j] == 0)
                     {
-                        roomsInColumnAreHaunted[j] = true;
+                        // mark those column haunted
+                        roomsInColumnAreHaunted[j] = 1;
                     }
-                    else if (roomsInColumnAreHaunted[j] == false)
+                    else
                     {
-                        totalPrice += matrix[i][j];
+                        // so price of every next room in the same column (under hauned room) is irrelevant (we won't book this room).
+                        totalPrice += (1 - roomsInColumnAreHaunted[j]) * matrix[i][j];
                     }
                 }
             }
