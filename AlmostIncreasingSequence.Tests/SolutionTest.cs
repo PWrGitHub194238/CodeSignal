@@ -12,7 +12,7 @@ namespace AlmostIncreasingSequence.Tests
             // Arrange
 
             // Act
-            bool result = Solution.almostIncreasingSequence(sequence);
+            bool result = Solution.AlmostIncreasingSequence(sequence);
 
             // Assert
             Assert.Equal(expectedResult, result);

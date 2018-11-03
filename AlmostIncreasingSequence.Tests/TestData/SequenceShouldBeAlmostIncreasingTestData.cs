@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace AlmostIncreasingSequence.Tests.TestData
 {
-    class SequenceShouldBeAlmostIncreasingTestData : IEnumerable<object[]>
+    internal class SequenceShouldBeAlmostIncreasingTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-			// Inputs: int[] sequence
-			// Outputs: bool
+            // Inputs: int[] sequence
+            // Outputs: bool
             yield return new object[] { new int[] { 1, 3, 2, 1 }, false };
             yield return new object[] { new int[] { 1, 3, 2 }, true };
             yield return new object[] { new int[] { 1, 2, 1, 2 }, false };
