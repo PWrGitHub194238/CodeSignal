@@ -94,9 +94,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmostIncreasingSequence", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlmostIncreasingSequence.Tests", "AlmostIncreasingSequence.Tests\AlmostIncreasingSequence.Tests.csproj", "{3AE0A6FB-8741-4F71-A3B7-696F3E0D7081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixElementsSum", "MatrixElementsSum\MatrixElementsSum.csproj", "{C957D648-EBD6-41FB-BCD5-BB4681904987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixElementsSum", "MatrixElementsSum\MatrixElementsSum.csproj", "{C957D648-EBD6-41FB-BCD5-BB4681904987}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixElementsSum.Tests", "MatrixElementsSum.Tests\MatrixElementsSum.Tests.csproj", "{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixElementsSum.Tests", "MatrixElementsSum.Tests\MatrixElementsSum.Tests.csproj", "{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -301,6 +301,8 @@ Global
 		{87E642A5-0E72-45D0-99FC-FA135F9B05C7} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
 		{1A560EF8-81CC-416A-A913-BA3EF3C498E6} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
 		{3AE0A6FB-8741-4F71-A3B7-696F3E0D7081} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
+		{C957D648-EBD6-41FB-BCD5-BB4681904987} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
+		{E02F7B79-5A7A-48F7-874B-A499E8FCD3B3} = {6EF41494-41F2-4CA7-99FD-693E07F4D789}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0044EB01-EEB3-44EB-982E-235549ACA104}
