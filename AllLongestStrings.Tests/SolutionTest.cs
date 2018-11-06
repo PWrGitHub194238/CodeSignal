@@ -12,7 +12,7 @@ namespace AllLongestStrings.Tests
             // Arrange
 
             // Act
-            string[] result = Solution.allLongestStrings(inputArray);
+            string[] result = Solution.AllLongestStrings(inputArray);
 
             // Assert
             Assert.Equal(expectedResult, result);

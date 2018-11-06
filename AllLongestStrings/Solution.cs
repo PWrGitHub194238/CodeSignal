@@ -6,7 +6,7 @@ namespace AllLongestStrings
 {
     public class Solution
     {
-        public static string[] allLongestStrings(string[] inputArray)
+        public static string[] AllLongestStrings(string[] inputArray)
         {
             int stringMaxLength = -1;
             IList<string> longestWordsList = new List<string>();

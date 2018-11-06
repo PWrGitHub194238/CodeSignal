@@ -10,6 +10,11 @@ namespace AllLongestStrings.Tests.TestData
             // Inputs: string[] inputArray
             // Outputs: string[]
             yield return new object[] { new string[] { "aba", "aa", "ad", "vcd", "aba" }, new string[] { "aba", "vcd", "aba" } };
+            yield return new object[] { new string[] { }, new string[] { } };
+            yield return new object[] { new string[] { "" }, new string[] { "" } };
+            yield return new object[] { new string[] { "", "" }, new string[] { "", "" } };
+            yield return new object[] { new string[] { "", " ", "", "", "" }, new string[] { " " } };
+            yield return new object[] { new string[] { "", "", " ", "", " " }, new string[] { " ", " " } };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
