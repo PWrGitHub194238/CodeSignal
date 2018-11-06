@@ -12,7 +12,7 @@ namespace JumpingJimmy2.Tests
             // Arrange
 
             // Act
-            int result = Solution.jumpingJimmy2(tower, power, poison, jumpHeight);
+            int result = Solution.JumpingJimmy2(tower, power, poison, jumpHeight);
 
             // Assert
             Assert.Equal(expectedResult, result);
