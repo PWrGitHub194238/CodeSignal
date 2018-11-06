@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace AllLongestStrings.Tests.TestData
 {
-    class ShouldReturnOnlyLongestStringsTestData : IEnumerable<object[]>
+    internal class ShouldReturnOnlyLongestStringsTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-			// Inputs: string[] inputArray
-			// Outputs: string[]
-            yield return new object[] { new string[] { }, new string[] { } };
+            // Inputs: string[] inputArray
+            // Outputs: string[]
+            yield return new object[] { new string[] { "aba", "aa", "ad", "vcd", "aba" }, new string[] { "aba", "vcd", "aba" } };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
