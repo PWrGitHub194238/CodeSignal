@@ -112,6 +112,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCharacterCount", "Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCharacterCount.Tests", "CommonCharacterCount.Tests\CommonCharacterCount.Tests.csproj", "{F6EA8749-4879-441E-A641-AEB1030913CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsLucky2", "IsLucky2\IsLucky2.csproj", "{6A40E4D3-55EE-4A41-B121-38113E2FB45E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsLucky2.Tests", "IsLucky2.Tests\IsLucky2.Tests.csproj", "{685B4F67-69A1-4387-8677-553253CCAC6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -294,6 +298,14 @@ Global
 		{F6EA8749-4879-441E-A641-AEB1030913CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6EA8749-4879-441E-A641-AEB1030913CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6EA8749-4879-441E-A641-AEB1030913CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A40E4D3-55EE-4A41-B121-38113E2FB45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A40E4D3-55EE-4A41-B121-38113E2FB45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A40E4D3-55EE-4A41-B121-38113E2FB45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A40E4D3-55EE-4A41-B121-38113E2FB45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{685B4F67-69A1-4387-8677-553253CCAC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{685B4F67-69A1-4387-8677-553253CCAC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685B4F67-69A1-4387-8677-553253CCAC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{685B4F67-69A1-4387-8677-553253CCAC6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
