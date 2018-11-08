@@ -12,7 +12,7 @@ namespace IsLucky2.Tests
             // Arrange
 
             // Act
-            bool result = Solution.isLucky2(n);
+            bool result = Solution.IsLucky2(n);
 
             // Assert
             Assert.Equal(expectedResult, result);
