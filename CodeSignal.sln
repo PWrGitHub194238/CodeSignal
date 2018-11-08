@@ -108,9 +108,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllLongestStrings.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smooth Sailing", "Smooth Sailing", "{12C0E067-CF3E-4B8F-8868-C16078701C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonCharacterCount", "CommonCharacterCount\CommonCharacterCount.csproj", "{26BFF70E-47CA-454D-81FF-5E74160D8B84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCharacterCount", "CommonCharacterCount\CommonCharacterCount.csproj", "{26BFF70E-47CA-454D-81FF-5E74160D8B84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonCharacterCount.Tests", "CommonCharacterCount.Tests\CommonCharacterCount.Tests.csproj", "{F6EA8749-4879-441E-A641-AEB1030913CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCharacterCount.Tests", "CommonCharacterCount.Tests\CommonCharacterCount.Tests.csproj", "{F6EA8749-4879-441E-A641-AEB1030913CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -346,6 +346,8 @@ Global
 		{7DD8036C-10C0-4B34-A973-FD5FEB2DF55A} = {12C0E067-CF3E-4B8F-8868-C16078701C0A}
 		{FDC39FDC-6858-41F7-932F-C8048D40EF69} = {12C0E067-CF3E-4B8F-8868-C16078701C0A}
 		{12C0E067-CF3E-4B8F-8868-C16078701C0A} = {A9C62A8F-1243-4E83-A481-0631C8E86D80}
+		{26BFF70E-47CA-454D-81FF-5E74160D8B84} = {12C0E067-CF3E-4B8F-8868-C16078701C0A}
+		{F6EA8749-4879-441E-A641-AEB1030913CD} = {12C0E067-CF3E-4B8F-8868-C16078701C0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0044EB01-EEB3-44EB-982E-235549ACA104}

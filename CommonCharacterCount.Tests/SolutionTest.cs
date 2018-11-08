@@ -12,7 +12,7 @@ namespace CommonCharacterCount.Tests
             // Arrange
 
             // Act
-            int result = Solution.commonCharacterCount(s1, s2);
+            int result = Solution.CommonCharacterCount(s1, s2);
 
             // Assert
             Assert.Equal(expectedResult, result);
