@@ -9,7 +9,8 @@ namespace IsLucky2.Tests.TestData
         {
 			// Inputs: int n
 			// Outputs: bool
-            yield return new object[] { 0, null };
+            yield return new object[] { 1230, true };
+            yield return new object[] { 239017, false };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
