@@ -9,7 +9,7 @@ namespace CommonCharacterCount.Tests.TestData
         {
 			// Inputs: string s1, string s2
 			// Outputs: int
-            yield return new object[] { null, null, 0 };
+            yield return new object[] { "aabcc", "adcaa", 3 };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
