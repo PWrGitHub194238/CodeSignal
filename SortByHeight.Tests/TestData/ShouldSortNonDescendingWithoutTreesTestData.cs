@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace SortByHeight.Tests.TestData
 {
-    class ShouldSortNonDescendingWithoutTreesTestData : IEnumerable<object[]>
+    internal class ShouldSortNonDescendingWithoutTreesTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-			// Inputs: int[] a
-			// Outputs: int[]
+            // Inputs: int[] a
+            // Outputs: int[]
             yield return new object[] { new int[] { -1, 150, 190, 170, -1, -1, 160, 180 },
                 new int[] { -1, 150, 160, 170, -1, -1, 180, 190 } };
 

@@ -6,7 +6,7 @@ namespace SortByHeight
 {
     public class Solution
     {
-        public static int[] sortByHeight(int[] a)
+        public static int[] SortByHeight(int[] a)
         {
             int arrayLength = a.Length;
             Queue<int> fixedElements = new Queue<int>();

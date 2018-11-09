@@ -12,7 +12,7 @@ namespace SortByHeight.Tests
             // Arrange
 
             // Act
-            int[] result = Solution.sortByHeight(a);
+            int[] result = Solution.SortByHeight(a);
 
             // Assert
             Assert.Equal(expectedResult, result);
