@@ -116,6 +116,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsLucky2", "IsLucky2\IsLuck
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsLucky2.Tests", "IsLucky2.Tests\IsLucky2.Tests.csproj", "{685B4F67-69A1-4387-8677-553253CCAC6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortByHeight", "SortByHeight\SortByHeight.csproj", "{97A4E290-C219-40C0-A59C-21224512AFCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortByHeight.Tests", "SortByHeight.Tests\SortByHeight.Tests.csproj", "{549CD2EC-A789-4C0A-BB76-AB3530E09A78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -306,6 +310,14 @@ Global
 		{685B4F67-69A1-4387-8677-553253CCAC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{685B4F67-69A1-4387-8677-553253CCAC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{685B4F67-69A1-4387-8677-553253CCAC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A4E290-C219-40C0-A59C-21224512AFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A4E290-C219-40C0-A59C-21224512AFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A4E290-C219-40C0-A59C-21224512AFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A4E290-C219-40C0-A59C-21224512AFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549CD2EC-A789-4C0A-BB76-AB3530E09A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549CD2EC-A789-4C0A-BB76-AB3530E09A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549CD2EC-A789-4C0A-BB76-AB3530E09A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549CD2EC-A789-4C0A-BB76-AB3530E09A78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
