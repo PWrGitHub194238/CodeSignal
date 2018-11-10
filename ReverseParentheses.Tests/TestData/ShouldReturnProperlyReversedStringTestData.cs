@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ReverseParentheses.Tests.TestData
 {
-    class ShouldReturnProperlyReversedStringTestData : IEnumerable<object[]>
+    internal class ShouldReturnProperlyReversedStringTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {

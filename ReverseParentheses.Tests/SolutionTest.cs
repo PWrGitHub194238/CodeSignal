@@ -12,7 +12,7 @@ namespace ReverseParentheses.Tests
             // Arrange
 
             // Act
-            string result = Solution.reverseParentheses(s);
+            string result = Solution.ReverseParentheses(s);
 
             // Assert
             Assert.Equal(expectedResult, result);
