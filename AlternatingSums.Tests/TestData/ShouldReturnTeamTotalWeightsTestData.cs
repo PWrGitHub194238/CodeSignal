@@ -7,9 +7,9 @@ namespace AlternatingSums.Tests.TestData
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-			// Inputs: int[] a
-			// Outputs: int[]
-            yield return new object[] { new int[] { }, new int[] { } };
+            // Inputs: int[] a
+            // Outputs: int[]
+            yield return new object[] { new int[] { 50, 60, 60, 45, 70 }, new int[] { 180, 105 } };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

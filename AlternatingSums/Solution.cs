@@ -1,11 +1,24 @@
-﻿
-namespace AlternatingSums
+﻿namespace AlternatingSums
 {
     public class Solution
     {
         public static int[] alternatingSums(int[] a)
         {
-            return (int[])new object();
+            int[] result = new int[2];
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    result[0] += a[i];
+                }
+                else
+                {
+                    result[1] += a[i];
+                }
+
+            }
+            return result;
         }
     }
 }
