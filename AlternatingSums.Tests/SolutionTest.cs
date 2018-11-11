@@ -12,7 +12,7 @@ namespace AlternatingSums.Tests
             // Arrange
 
             // Act
-            int[] result = Solution.alternatingSums(a);
+            int[] result = Solution.AlternatingSums(a);
 
             // Assert
             Assert.Equal(expectedResult, result);

@@ -2,23 +2,16 @@
 {
     public class Solution
     {
-        public static int[] alternatingSums(int[] a)
+        public static int[] AlternatingSums(int[] a)
         {
-            int[] result = new int[2];
+            int[] teams = new int[2];
+            int aLength = a.Length;
 
-            for (int i = 0; i < a.Length; i++)
+            for (int idx = 0; idx < aLength; idx += 1)
             {
-                if (i % 2 == 0)
-                {
-                    result[0] += a[i];
-                }
-                else
-                {
-                    result[1] += a[i];
-                }
-
+                teams[idx % 2] += a[idx];
             }
-            return result;
+            return teams;
         }
     }
 }

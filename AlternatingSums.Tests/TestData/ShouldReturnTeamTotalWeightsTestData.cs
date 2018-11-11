@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AlternatingSums.Tests.TestData
 {
-    class ShouldReturnTeamTotalWeightsTestData : IEnumerable<object[]>
+    internal class ShouldReturnTeamTotalWeightsTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
@@ -15,4 +15,3 @@ namespace AlternatingSums.Tests.TestData
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
-
