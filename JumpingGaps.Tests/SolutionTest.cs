@@ -12,7 +12,7 @@ namespace JumpingGaps.Tests
             // Arrange
 
             // Act
-            int result = Solution.jumpingGaps(stage);
+            int result = Solution.JumpingGaps(stage);
 
             // Assert
             Assert.Equal(expectedResult, result);

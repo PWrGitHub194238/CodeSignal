@@ -9,7 +9,7 @@ namespace JumpingGaps.Tests.TestData
         {
             // Inputs: string[] stage
             // Outputs: int
-            /*yield return new object[] { new string[] {
+            yield return new object[] { new string[] {
                 "       E",
                 "       #",
                 "    #  #",
@@ -36,7 +36,7 @@ namespace JumpingGaps.Tests.TestData
                 "  S     # ",
                 " ######## ",
                 "          ",
-                "          " }, 6 };*/
+                "          " }, 6 };
 
             yield return new object[] { new string[] {
                 "                ",

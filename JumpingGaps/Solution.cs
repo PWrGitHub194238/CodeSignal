@@ -1,310 +1,293 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace JumpingGaps
 {
-
-    public class NodeDistComparer : IComparer<Node>
-    {
-        public int Compare(Node x, Node y)
-        {
-            return x.Distance.CompareTo(y.Distance);
-        }
-    }
-
-    public class PriorityQueue<T>
-    {
-        private IComparer<T> comparer;
-        private T[] heap;
-        public int Count { get; private set; }
-        public PriorityQueue() : this(null) { }
-        public PriorityQueue(int capacity) : this(capacity, null) { }
-        public PriorityQueue(IComparer<T> comparer) : this(16, comparer) { }
-        public PriorityQueue(int capacity, IComparer<T> comparer)
-        {
-            this.comparer = (comparer == null) ? Comparer<T>.Default : comparer;
-            heap = new T[capacity];
-        }
-        public void push(T v)
-        {
-            if (Count >= heap.Length) Array.Resize(ref heap, Count * 2);
-            heap[Count] = v;
-            SiftUp(Count++);
-        }
-        public T pop()
-        {
-            var v = top();
-            heap[0] = heap[--Count];
-            if (Count > 0) SiftDown(0);
-            return v;
-        }
-        public T top()
-        {
-            if (Count > 0) return heap[0];
-            return heap[0];
-        }
-
-        private void SiftUp(int n)
-        {
-            var v = heap[n];
-            for (var n2 = n / 2; n > 0 && comparer.Compare(v, heap[n2]) > 0; n = n2, n2 /= 2) heap[n] = heap[n2];
-            heap[n] = v;
-        }
-
-        private void SiftDown(int n)
-        {
-            var v = heap[n];
-            for (var n2 = n * 2; n2 < Count; n = n2, n2 *= 2)
-            {
-                if (n2 + 1 < Count && comparer.Compare(heap[n2 + 1], heap[n2]) > 0) n2++;
-                if (comparer.Compare(v, heap[n2]) >= 0) break;
-                heap[n] = heap[n2];
-            }
-            heap[n] = v;
-        }
-    }
-
-    public class Algorithm
-    {
-        public static void Dijkstra(Node s, Node e)
-        {
-            var Q = new PriorityQueue<Node>(new NodeDistComparer());
-            Q.push(s);
-
-            while (Q.Count > 0)
-            {
-                Node u = Q.pop();
-
-                foreach (var adj in u.Children)
-                {
-
-                    if (adj.Distance > u.Distance + 1)
-                    {
-                        adj.Distance = u.Distance + 1;
-                        adj.Parent = u;
-                        Q.push(adj);
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
-
     public class Node
     {
+        public const char BOARDGAME_TILE_SOLID_BLOCK = '#';
+        public const char BOARDGAME_TILE_EMPTY_BLOCK = ' ';
+        public const char BOARDGAME_TILE_START_BLOCK = 'S';
+        public const char BOARDGAME_TILE_END_BLOCK = 'E';
+
         public char Tile { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public int Distance { get; set; }
-        public Node Parent { get; set; }
-        public ISet<Node> Children { get; set; }
+        public bool Scanned { get; set; }
 
         public Node(char tile, int x, int y)
         {
             Tile = tile;
             X = x;
             Y = y;
-            Distance = int.MaxValue;
+        }
+
+        internal bool IsBlock()
+        {
+            return Tile.Equals(BOARDGAME_TILE_SOLID_BLOCK);
         }
     }
 
     public class Solution
     {
-        public static int jumpingGaps(string[] stage)
+        private const int NO_PATH_CAN_BE_FOUND_RESULT = -1;
+        private const int ALLOWED_HORIZONTAL_MOVE_LENGTH = 3;
+        private const int ALLOWED_VERTICAL_MOVE_LENGTH = 3;
+
+        public static int JumpingGaps(string[] stage)
         {
-            Node startPoint = null;
-            Node endPoint = null;
-            // Plus one rows to gameboard's height because we are allowed to jump beond.
-            // By adding one artificial row on top of our gameboard, we ensure that 
-            // we would be able to jump through everything.
-            // Also we would like to add some borders around gameboard so we won't have to check
-            // tile coordinates every single time, because there will be no such situation 
-            // when we have been trying jump outside the board.
-            int stageInnerHeight = stage.Length;
-            int stageInnerWidth = stage[0].Length;
-            int gameboardMatrixHeight = stageInnerHeight + 1 + 2;
-            int gameboardMatrixWidth = stageInnerWidth + 2;
-            Node[][] gameboardMatrix = new Node[gameboardMatrixHeight][];
+            // Stage is empty
+            if (stage == null || stage.Length == 0 || stage[0].Length == 0) return NO_PATH_CAN_BE_FOUND_RESULT;
 
-            // Add the top border.
-            gameboardMatrix[0] = new Node[gameboardMatrixWidth];
-            for (int j = 0; j < gameboardMatrixWidth; j++)
+            Node[][] gameboardMatrix = BuildGameBoard(stage: stage);
+            Node startPoint = GetStartPoint(gameboard: gameboardMatrix);
+            Node endPoint = GetEndPoint(gameboard: gameboardMatrix);
+
+            // Stage has no start and end point
+            if (startPoint == null || endPoint == null) return NO_PATH_CAN_BE_FOUND_RESULT;
+
+            // Set of tiles we can end after each move.
+            ISet<Node> nextMoveTargetTiles;
+            // Set of tiles to be explored for a next move possibilities.
+            ISet<Node> startingPointTiles = new HashSet<Node> { startPoint };
+            // Whenever during a tile exploration we will be able to reach a new tile.
+            bool newTilesReached = true;
+
+            int moves = 0;
+            do
             {
-                gameboardMatrix[0][j] = new Node('#', j, 0);
-            }
+                newTilesReached = false;
+                IEnumerator<Node> nodeToScan = startingPointTiles.GetEnumerator();
+                nodeToScan.Reset();
+                moves += 1;
 
-            // Add the sky
-            gameboardMatrix[1] = new Node[gameboardMatrixWidth];
-            gameboardMatrix[1][0] = new Node('#', 0, 1);
-            for (int j = 1; j < gameboardMatrixWidth - 1; j++)
-            {
-                gameboardMatrix[1][j] = new Node(' ', j, 1);
-            }
-            gameboardMatrix[1][gameboardMatrixWidth - 1] = new Node('#', gameboardMatrixWidth - 1, 1);
-
-            // Copy rest of data
-            for (int i = 2; i < gameboardMatrixHeight - 1; i++)
-            {
-                gameboardMatrix[i] = new Node[gameboardMatrixWidth];
-                // Add left border
-                gameboardMatrix[i][0] = new Node('#', 0, i);
-
-                var charArray = stage[i - 2].ToCharArray();
-                for (int j = 1; j < gameboardMatrixWidth - 1; j++)
+                nextMoveTargetTiles = new HashSet<Node>();
+                // Resolve next possible moves for every tile we have ended up on.
+                while (nodeToScan.MoveNext())
                 {
-                    if (charArray[j - 1] == 'S')
+                    Node tile = nodeToScan.Current;
+                    // For each tile we can end up on after a move
+                    foreach (Node endMoveTile in ExploreTile(gameboard: gameboardMatrix, tile: tile))
                     {
-                        startPoint = new Node(charArray[j - 1], j, i);
-                        gameboardMatrix[i][j] = startPoint;
-                        startPoint.Distance = 0;
+                        // if it is an end tile, resturn number of moves taken to explore that tile.
+                        if (endMoveTile.Tile.Equals('E')) return moves;
+                        newTilesReached = true;
+                        nextMoveTargetTiles.Add(endMoveTile);
                     }
-                    else if (charArray[j - 1] == 'E')
+                }
+                startingPointTiles = nextMoveTargetTiles;
+            } while (newTilesReached);
+
+            return NO_PATH_CAN_BE_FOUND_RESULT;
+        }
+
+        private static IEnumerable<Node> ExploreTile(Node[][] gameboard, Node tile)
+        {
+            ISet<Node> nextMoveTargetTiles = new HashSet<Node>();
+            if (!tile.Scanned)
+            {
+                tile.Scanned = true;
+                int possibleJumpHeight = GetPossibleJumpHeightFromGivenTile(gameboard: gameboard, startingTile: tile,
+                    horizontalMoveLength: ALLOWED_HORIZONTAL_MOVE_LENGTH);
+                foreach (Node endMoveTile in ExploreTileMoves(gameboard: gameboard, startingTile: tile,
+                    horizontalMoveLength: possibleJumpHeight, verticalMoveLength: ALLOWED_VERTICAL_MOVE_LENGTH))
+                {
+                    yield return endMoveTile;
+                }
+            }
+        }
+
+        private static int GetPossibleJumpHeightFromGivenTile(Node[][] gameboard, Node startingTile, int horizontalMoveLength)
+        {
+            int currentHeight = startingTile.Y;
+            int tileColumnIdx = startingTile.X;
+            int possibleJumpHeight = 0;
+            while (currentHeight > 0 && possibleJumpHeight < horizontalMoveLength
+                && !gameboard[currentHeight - 1][tileColumnIdx].IsBlock())
+            {
+                currentHeight -= 1;
+                possibleJumpHeight += 1;
+            }
+            return possibleJumpHeight;
+        }
+
+        private static IEnumerable<Node> ExploreTileMoves(Node[][] gameboard, Node startingTile, int horizontalMoveLength,
+            int verticalMoveLength)
+        {
+            var nextMoveTargetTiles = new HashSet<Node>();
+            int currentTileRowIdx = startingTile.Y;
+            int highestRowReachedFromCurrentTileIdx = currentTileRowIdx - horizontalMoveLength;
+            // From our position to highets position as we could jump
+            for (int y = currentTileRowIdx; y >= highestRowReachedFromCurrentTileIdx; y -= 1)
+            {
+                // moving right from current jumping position
+                for (int x = 1; x <= verticalMoveLength; x += 1)
+                {
+                    int resultTileColumnIdx = startingTile.X + x;
+                    Node resultTile = gameboard[y][resultTileColumnIdx];
+                    if (!resultTile.IsBlock())
                     {
-                        endPoint = new Node(charArray[j - 1], j, i);
-                        gameboardMatrix[i][j] = endPoint;
+                        resultTile = gameboard[GetRowIdxAfterApplyGravity(gameboard: gameboard,
+                            currentTileRow: y, currentTileColumn: resultTileColumnIdx)][resultTileColumnIdx];
+                        if (!nextMoveTargetTiles.Contains(resultTile))
+                        {
+                            nextMoveTargetTiles.Add(resultTile);
+                            yield return resultTile;
+                        }
                     }
                     else
                     {
-                        gameboardMatrix[i][j] = new Node(charArray[j - 1], j, i);
+                        break;
                     }
                 }
 
-                // Add right border
-                gameboardMatrix[i][gameboardMatrixWidth - 1] = new Node('#', gameboardMatrixWidth - 1, i);
+                // moving left from current jumping position
+                for (int x = 1; x <= verticalMoveLength; x += 1)
+                {
+                    int resultTileColumnIdx = startingTile.X - x;
+                    Node resultTile = gameboard[y][resultTileColumnIdx];
+                    if (!resultTile.IsBlock())
+                    {
+                        resultTile = gameboard[GetRowIdxAfterApplyGravity(gameboard: gameboard,
+                            currentTileRow: y, currentTileColumn: resultTileColumnIdx)][resultTileColumnIdx];
+                        if (!nextMoveTargetTiles.Contains(resultTile))
+                        {
+                            nextMoveTargetTiles.Add(resultTile);
+                            yield return resultTile;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
+
+        }
+
+        private static int GetRowIdxAfterApplyGravity(Node[][] gameboard, int currentTileRow, int currentTileColumn)
+        {
+            while (!gameboard[currentTileRow + 1][currentTileColumn].IsBlock())
+            {
+                currentTileRow += 1;
+            }
+            return currentTileRow;
+        }
+
+        private static Node GetStartPoint(Node[][] gameboard)
+        {
+            return FindFirstTile(gameboard: gameboard, tileType: Node.BOARDGAME_TILE_START_BLOCK);
+        }
+
+        private static Node GetEndPoint(Node[][] gameboard)
+        {
+            return FindFirstTile(gameboard: gameboard, tileType: Node.BOARDGAME_TILE_END_BLOCK);
+        }
+
+        private static Node FindFirstTile(Node[][] gameboard, char tileType)
+        {
+            int gameboardHeight = gameboard.Length;
+            int gameboardWidth = gameboard[0].Length;
+            Node[] gameboardRow;
+
+            for (int i = 0; i < gameboardHeight; i += 1)
+            {
+                gameboardRow = gameboard[i];
+                for (int j = 0; j < gameboardWidth; j += 1)
+                {
+                    if (gameboardRow[j].Tile.Equals(tileType))
+                    {
+                        return gameboardRow[j];
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static Node[][] BuildGameBoard(string[] stage)
+        {
+            int stageInnerHeight = stage.Length;
+            int stageInnerWidth = stage[0].Length;
+            // Plus one rows to gameboard's height because we are allowed to jump beond.
+            // By adding one artificial row on top of our gameboard, we ensure that 
+            // we would be able to jump through everything.
+            int gameboardMatrixHeight = stageInnerHeight + 1 + 2;
+            // Also we would like to add some borders around gameboard so we won't have to check
+            // tile coordinates every single time, because there will be no such situation 
+            // when we have been trying jump outside the board.
+            int gameboardMatrixWidth = stageInnerWidth + 2;
+
+            Node[][] gameboardMatrix = new Node[gameboardMatrixHeight][];
+
+            // Add the top border.
+            gameboardMatrix = FillRowBorder(gameboard: gameboardMatrix, rowIdx: 0, rowWidth: gameboardMatrixWidth);
+
+            // Add the sky right under the top border
+            gameboardMatrix = FillRowSky(gameboard: gameboardMatrix, rowIdx: 0, rowWidth: gameboardMatrixWidth);
+
+            gameboardMatrix = MapStageRows(gameboard: gameboardMatrix, innerBoard: stage,
+                rowBeginIdx: 2, rowEndIdx: gameboardMatrixHeight - 1,
+                rowWidth: gameboardMatrixWidth, innerBoardWidth: stageInnerWidth);
 
             // Add the bottom border.
-            gameboardMatrix[gameboardMatrixHeight - 1] = new Node[gameboardMatrixWidth];
-            for (int j = 0; j < gameboardMatrixWidth; j++)
-            {
-                gameboardMatrix[gameboardMatrix.Length - 1][j] = new Node('#', j, gameboardMatrix.Length - 1);
-            }
+            gameboardMatrix = FillRowBorder(gameboard: gameboardMatrix,
+                rowIdx: gameboardMatrixHeight - 1, rowWidth: gameboardMatrixWidth);
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < gameboardMatrixHeight; i++)
+            return gameboardMatrix;
+        }
+
+        private static Node[][] MapStageRows(Node[][] gameboard, string[] innerBoard,
+            int rowBeginIdx, int rowEndIdx, int rowWidth, int innerBoardWidth)
+        {
+            Node[] gameboardRow;
+            char[] innerBoardRowData;
+            for (int i = rowBeginIdx; i < rowEndIdx; i += 1)
             {
-                for (int j = 0; j < gameboardMatrixWidth; j++)
+                gameboard[i] = new Node[rowWidth];
+
+                gameboardRow = gameboard[i];
+                innerBoardRowData = innerBoard[i - 2].ToCharArray();
+
+                for (int j = 0; j < innerBoardWidth; j += 1)
                 {
-                    sb.Append(gameboardMatrix[i][j].Tile);
+                    gameboardRow[j + 1] = new Node(innerBoardRowData[j], j + 1, i);
                 }
-                sb.AppendLine();
+
+                gameboard = AddRowBorder(gameboard: gameboard, rowIdx: i);
             }
+            return gameboard;
+        }
 
-            string s = sb.ToString();
+        private static Node[][] FillRowSky(Node[][] gameboard, int rowIdx, int rowWidth)
+        {
+            gameboard = FillGameboardRow(gameboard: gameboard, rowIdx: 1,
+                beginIdx: 1, endIdx: rowWidth - 1, rowWidth: rowWidth, tileType: Node.BOARDGAME_TILE_EMPTY_BLOCK);
+            return AddRowBorder(gameboard: gameboard, rowIdx: 1);
+        }
 
-            if (startPoint != null && endPoint != null)
+        private static Node[][] AddRowBorder(Node[][] gameboard, int rowIdx)
+        {
+            int rowLastIdx = gameboard[rowIdx].Length - 1;
+            gameboard[rowIdx][0] = new Node(Node.BOARDGAME_TILE_SOLID_BLOCK, 0, rowIdx);
+            gameboard[rowIdx][rowLastIdx] = new Node(Node.BOARDGAME_TILE_SOLID_BLOCK, rowLastIdx, rowIdx);
+            return gameboard;
+        }
+
+        private static Node[][] FillRowBorder(Node[][] gameboard, int rowIdx, int rowWidth)
+        {
+            return FillGameboardRow(gameboard: gameboard, rowIdx: rowIdx,
+                beginIdx: 0, endIdx: rowWidth, rowWidth: rowWidth, tileType: Node.BOARDGAME_TILE_SOLID_BLOCK);
+        }
+
+        private static Node[][] FillGameboardRow(Node[][] gameboard, int rowIdx,
+            int beginIdx, int endIdx, int rowWidth, char tileType)
+        {
+            Node[] gameboardRow = new Node[rowWidth];
+            gameboard[rowIdx] = gameboardRow;
+            for (int j = beginIdx; j < endIdx; j += 1)
             {
-                ISet<Node> beginMoveTiles;
-                ISet<Node> endMoveTiles;
-                Queue<Node> nodeToScan = new Queue<Node>();
-
-                nodeToScan.Enqueue(startPoint);
-
-                do
-                {
-                    beginMoveTiles = new HashSet<Node>();
-                    endMoveTiles = new HashSet<Node>();
-                    Node currentNode = nodeToScan.Dequeue();
-
-                    if (currentNode.Children == null)
-                    {
-                        currentNode.Children = new HashSet<Node>();
-                        //beginMoveTiles.Add(currentNode);
-                        /*for (int i = 0; i < 3; i++)
-                        {
-                            foreach (var node in beginMoveTiles)
-                            {
-                                for (int x = node.X - 1; x <= node.X + 1; x++)
-                                {
-                                    for (int y = node.Y - 1; y <= node.Y + 1; y++)
-                                    {
-                                        if (gameboardMatrix[y][x].Tile != '#')
-                                        {
-                                            endMoveTiles.Add(gameboardMatrix[y][x]);
-                                        }
-                                    }
-                                }
-                            }
-
-                            foreach (var nodeToAdd in endMoveTiles)
-                            {
-                                beginMoveTiles.Add(nodeToAdd);
-                            }
-                        }*/
-
-                        int allowedHeight = currentNode.Y;
-                        int allowedHeightDelta = 0;
-                        while (allowedHeight > 0 && allowedHeightDelta < 3 && gameboardMatrix[allowedHeight - 1][currentNode.X].Tile != '#')
-                        {
-                            allowedHeight -= 1;
-                            allowedHeightDelta += 1;
-                        }
-
-                        // From our position to highets position as we could jump
-                        for (int y = currentNode.Y; y >= allowedHeight; y -= 1)
-                        {
-                            // moving right from current jumping position
-                            for (int x = 1; x <= 3; x += 1)
-                            {
-                                if (gameboardMatrix[y][currentNode.X + x].Tile != '#')
-                                {
-                                    beginMoveTiles.Add(gameboardMatrix[y][currentNode.X + x]);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-
-                            // moving left from current jumping position
-                            for (int x = 1; x <= 3; x += 1)
-                            {
-                                if (gameboardMatrix[y][currentNode.X - x].Tile != '#')
-                                {
-                                    beginMoveTiles.Add(gameboardMatrix[y][currentNode.X - x]);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-                        foreach (var nodeToAdd in beginMoveTiles)
-                        {
-                            var x = nodeToAdd.X;
-                            var y = nodeToAdd.Y;
-
-                            while (gameboardMatrix[y + 1][x].Tile != '#')
-                            {
-                                y += 1;
-                            }
-                            if (gameboardMatrix[y][x] != currentNode)
-                            {
-                                if (!currentNode.Children.Contains(gameboardMatrix[y][x]))
-                                {
-                                    currentNode.Children.Add(gameboardMatrix[y][x]);
-                                    nodeToScan.Enqueue(gameboardMatrix[y][x]);
-                                }
-                            }
-                        }
-                    }
-                } while (nodeToScan.Count > 0);
+                gameboardRow[j] = new Node(tileType, j, rowIdx);
             }
-
-            Algorithm.Dijkstra(startPoint, endPoint);
-            var point = endPoint;
-
-            if (point.Parent == null) return -1;
-            while (point != startPoint)
-            {
-                point = point.Parent;
-            }
-            return endPoint.Distance;
+            return gameboard;
         }
     }
 }
