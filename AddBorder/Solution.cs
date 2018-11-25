@@ -1,12 +1,10 @@
-﻿
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AddBorder
 {
     public class Solution
     {
-        public static string[] addBorder(string[] picture)
+        public static string[] AddBorder(string[] picture)
         {
             int pictureWidth = picture[0].Length;
             string topBottimBorder = new string('*', pictureWidth + 2);
@@ -18,11 +16,7 @@ namespace AddBorder
 
             foreach (var pictureRow in picture)
             {
-                borderedPicture.Add(
-                    new StringBuilder("*")
-                        .Append(pictureRow)
-                        .Append("*")
-                        .ToString());
+                borderedPicture.Add("*" + pictureRow + "*");
             }
 
             borderedPicture.Add(topBottimBorder);

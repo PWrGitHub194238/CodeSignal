@@ -12,7 +12,7 @@ namespace AddBorder.Tests
             // Arrange
 
             // Act
-            string[] result = Solution.addBorder(picture);
+            string[] result = Solution.AddBorder(picture);
 
             // Assert
             Assert.Equal(expectedResult, result);
