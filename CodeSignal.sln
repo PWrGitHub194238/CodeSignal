@@ -134,6 +134,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JumpingGaps", "JumpingGaps\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JumpingGaps.Tests", "JumpingGaps.Tests\JumpingGaps.Tests.csproj", "{136D95E7-2F08-41A2-935A-80B22D45FDFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddBorder", "AddBorder\AddBorder.csproj", "{4239AEA4-AE32-49CD-9200-8EA79F9FE74E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddBorder.Tests", "AddBorder.Tests\AddBorder.Tests.csproj", "{8A912CD1-1BCC-46E8-9903-FF23ACC39C48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -356,6 +360,14 @@ Global
 		{136D95E7-2F08-41A2-935A-80B22D45FDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{136D95E7-2F08-41A2-935A-80B22D45FDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{136D95E7-2F08-41A2-935A-80B22D45FDFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4239AEA4-AE32-49CD-9200-8EA79F9FE74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4239AEA4-AE32-49CD-9200-8EA79F9FE74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4239AEA4-AE32-49CD-9200-8EA79F9FE74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4239AEA4-AE32-49CD-9200-8EA79F9FE74E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A912CD1-1BCC-46E8-9903-FF23ACC39C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A912CD1-1BCC-46E8-9903-FF23ACC39C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A912CD1-1BCC-46E8-9903-FF23ACC39C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A912CD1-1BCC-46E8-9903-FF23ACC39C48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
