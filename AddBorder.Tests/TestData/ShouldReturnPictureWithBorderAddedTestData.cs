@@ -9,7 +9,13 @@ namespace AddBorder.Tests.TestData
         {
 			// Inputs: string[] picture
 			// Outputs: string[]
-            yield return new object[] { new string[] { }, new string[] { } };
+            yield return new object[] { new string[] {
+                "abc",
+                "ded" }, new string[] {
+                "*****",
+                "*abc*",
+                "*ded*",
+                "*****"} };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
